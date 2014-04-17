@@ -9,27 +9,20 @@
       
       <title>Minefield</title>
       
-      <% if (production){ %>
-        <script type="text/javascript" src="scripts/main-build.js"></script>
-      <% } else { %>
-        <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
-      <% } %>
-
       <link href="static/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
       <div style="width:0;height:0;overflow:hidden">
-        <img alt="marked" src="/images/marked.png" />
-        <img alt="doubt" src="/images/doubt.png" />
-        <img alt="mine" src="/images/mine.png" />
-        <img alt="kids-play" src="/images/kids-play.png" />
-        <img alt="medium" src="/images/medium.png" />
-        <img alt="isane" src="/images/insane.png" />
-        <img alt="win" src="/images/win.png" />
-        <img alt="lose" src="/images/lose.png" />
+        <img alt="marked" src="/images/marked.png" width="480" height="480" />
+        <img alt="doubt" src="/images/doubt.png" width="480" height="480" />
+        <img alt="mine" src="/images/mine.png" width="480" height="480" />
+        <img alt="kids-play" src="/images/kids-play.png" width="1200" height="1200" />
+        <img alt="medium" src="/images/medium.png" width="1200" height="1200" />
+        <img alt="isane" src="/images/insane.png" width="1200" height="1200" />
+        <img alt="win" src="/images/win.png" width="1200" height="1200" />
+        <img alt="lose" src="/images/lose.png" width="1200" height="1200" />
       </div>
       <div id="top-bar">
-
         <div id="right-controls">
           <div>
             <span>Mines left</span>
@@ -41,8 +34,12 @@
           </div>
         </div>
       </div>
-
       <div id="field-wrapper"></div>
-        
+
+      <% if (production){ %>
+      <script type="text/javascript" src="scripts/main-build.js"></script>
+      <% } else { %>
+      <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
+      <% } %>        
     </body>
 </html>
