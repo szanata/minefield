@@ -55,7 +55,8 @@ app.configure(function (){
     'application/octet-stream': ['ttf'],
     'image/svg+xml': ['svg'],
     'application/vnd.ms-fontobject': ['eot'],
-    'application/x-font-woff': ['woff']
+    'application/x-font-woff': ['woff'],
+    'audio/vnd.wav': ['wav']
   });
 });
 
