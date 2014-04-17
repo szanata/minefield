@@ -7,8 +7,7 @@
     "express": "3.x",
     "ejs": "*",
     "connect-assetmanager": "*",
-    "mime": "*",
-    "requirejs": "*"
+    "mime": "*"
   },
   "engines": {
     "node": "0.10.x",
