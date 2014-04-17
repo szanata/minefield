@@ -13,11 +13,6 @@ define([
   return {
 
     init: function (){
-      //image caching
-      $('body').append('<div id="image_caching_container"style="overflow:hidden; height:0; width:0;"></div>')
-      $('#image_caching_container').append('<img alt="mark_caching" src="/images/marked.png"/>');
-      $('#image_caching_container').append('<img alt="tag_caching" src="/images/doubt.png"/>');
-      $('#image_caching_container').append('<img alt="mine_caching" src="/images/mine.png"/>');
       $timer = $('#timer');
       $flagsCounter = $('#flags-counter');
 
@@ -102,13 +97,10 @@ define([
     readyState: function (x, y){
       $('#s_{0}_{1}'.format(x, y)).removeClass('marked doubt');
     },
-    winGame:function (){
+    endGame:function (){
       $('.square').unbind('mouseup');
       this.stopTimer();
-    },
-    loseGame:function (){
-      $('.square').unbind('mouseup');
-      this.stopTimer();
+      timer.reset();
     },
     openAllMines: function (minesToOpen){
       var 

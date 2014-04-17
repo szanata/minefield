@@ -1,9 +1,3 @@
-require.config({
-  paths: {
-    jquery: '../jquery-2.1.0.min'
-  }
-});
-
 if (!String.prototype.padLeft) {
   String.prototype.padLeft = function (num, ch) {
     var
@@ -30,7 +24,14 @@ if (!String.format){
   }; 
 }
 
-define(['model',
+require.config({
+  paths: {
+    jquery: '../jquery-2.1.0.min'
+  }
+});
+
+define('main', [
+  'model',
   'jquery',
   'newGame',
   'loadDialog',

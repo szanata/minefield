@@ -150,11 +150,7 @@ define([
     result.minesLeft = getMinesLeftAmount();
     result.state = state;
     result.formattedTime = timer.format();
-    if (state === model.ResultState.WIN){
-      drawer.winGame();
-    } else {
-      drawer.loseGame();
-    }
+    drawer.engGame();
     endGameCallback(result);
   }
     
