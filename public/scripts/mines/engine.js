@@ -194,7 +194,7 @@ define([
       s.state = model.State.READY;
       drawer.readyState(x, y);
     }
-    drawer.updateFlagsCount(squares.filter(function (s){
+    drawer.updateFlagsCount(settings.minesTotal - squares.filter(function (s){
       return s.isStateMarked();
     }).length);
   }
@@ -212,6 +212,7 @@ define([
       timer.start();
       drawer.field(settings.width, settings.height, rClick, lClick);
       drawer.startTimer();
+      drawer.updateFlagsCount(settings.minesTotal);
       emptySquaresCount = (settings.width * settings.height) - settings.minesTotal;
     }
   };        
