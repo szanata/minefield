@@ -1,0 +1,22 @@
+{
+  "name": "mines",
+  "version": "0.1.0",
+  "description": "Plain simple minefield game",
+  "main": "app.js",
+  "dependencies": {
+    "express": "3.x",
+    "ejs": "*",
+    "connect-assetmanager": "*",
+    "mime": "*"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "repository":{ 
+    "type" : "git",
+    "url" : "https://github.com/madeinstefano/new-site.git"
+  },
+  "author": "Stéfano Zanata",
+  "license": "BSD"
+}

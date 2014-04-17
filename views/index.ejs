@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="author" content="szanata">
+      <meta name="description" content="Plain simple minefield game">
+      <meta name="robots" content="index,follow">
+      <meta name="keywords" content="minefield game, javascript game">
+      
+      <title>Minefield</title>
+      
+      <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
+
+      <link href="styles/Lollipop.css" rel="stylesheet" type="text/css" />
+      <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+      <div id="top-bar">
+
+        <div id="right-controls">
+          <div>
+            <span>Mines left</span>
+            <span class="counter" id="flags-counter">0</span>
+          </div>
+          <div>
+            <span>Time</span>
+            <span class="counter" id="timer">00:00:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="field-wrapper"></div>
+        
+    </body>
+</html>
