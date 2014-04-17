@@ -36,7 +36,7 @@ define([
           maxHeight:'auto',
           height:'auto',
           onOpen: function (){
-            $(this).find('a[data-dificulty]').on('click', function (e){
+            $(this).find('a[data-difficulty]').on('click', function (e){
               e.preventDefault();
               $(this).siblings('.selected').removeClass('selected');
               $(this).toggleClass('selected');

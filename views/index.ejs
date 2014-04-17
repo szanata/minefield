@@ -9,10 +9,11 @@
       
       <title>Minefield</title>
       
-      <!--   
-      <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
-      -->
-      <script type="text/javascript" src="scripts/main-build.js"></script>
+      <% if (production){ %>
+        <script type="text/javascript" src="scripts/main-build.js"></script>
+      <% } else { %>
+        <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
+      <% } %>
 
       <link href="static/style.css" rel="stylesheet" type="text/css" />
     </head>

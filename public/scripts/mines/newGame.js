@@ -21,10 +21,10 @@ define([
         
         Lollipop.open({
           content:$this,
-          title:'Start new game',
+          title:'Welcome to Minefield',
           showCancelButton: false,
           onOpen: function (){
-            $(this).find('a[data-dificulty]').on('click', function (e){
+            $(this).find('a[data-difficulty]').on('click', function (e){
               e.preventDefault();
               $(this).siblings('.selected').removeClass('selected');
               $(this).toggleClass('selected');
@@ -35,19 +35,19 @@ define([
               title:'Start',
               click: function (){
                 if ($this.find('a.selected').size() > 0){
-                  var dificulty;
-                  switch ($this.find('.selected').attr('data-dificulty')){
-                    case model.GameDificulty.KIDS_PLAY:
-                    dificulty = kidsPlaySettings;
+                  var difficulty;
+                  switch ($this.find('.selected').attr('data-difficulty')){
+                    case model.GameDifficulty.KIDS_PLAY:
+                      difficulty = kidsPlaySettings;
                       break;
-                    case model.GameDificulty.MEDIUM:
-                      dificulty = mediumSettings;
+                    case model.GameDifficulty.MEDIUM:
+                      difficulty = mediumSettings;
                       break;
-                    case model.GameDificulty.INSANE:
-                      dificulty = insaneSettings;
+                    case model.GameDifficulty.INSANE:
+                      difficulty = insaneSettings;
                       break;
                   }
-                  callback(dificulty);
+                  callback(difficulty);
                   Lollipop.close();
                 }
               }

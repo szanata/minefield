@@ -19,12 +19,12 @@ define(function (){
 	};
 	model.SoundType = SoundType;
 
-	var GameDificulty = {
+	var GameDifficulty = {
 		KIDS_PLAY:'kids-play',
 		MEDIUM:'medium',
 		INSANE:'insane'
 	};
-	model.GameDificulty = GameDificulty;
+	model.GameDifficulty = GameDifficulty;
 	/**
  	* content constants
  	*/

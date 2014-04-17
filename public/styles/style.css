@@ -134,9 +134,9 @@ div.square{
 #new-game-options a:not(:last-child){
   margin-right:2%;
 }
-#new-game-options a[data-dificulty="kids-play"]{background-image:url('/images/kids-play.png');}
-#new-game-options a[data-dificulty="medium"]{background-image:url('/images/medium.png');}
-#new-game-options a[data-dificulty="insane"]{background-image:url('/images/insane.png');}
+#new-game-options a[data-difficulty="kids-play"]{background-image:url('/images/kids-play.png');}
+#new-game-options a[data-difficulty="medium"]{background-image:url('/images/medium.png');}
+#new-game-options a[data-difficulty="insane"]{background-image:url('/images/insane.png');}
 
 #lose-badge,
 #win-badge{

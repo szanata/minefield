@@ -150,7 +150,7 @@ define([
     result.minesLeft = getMinesLeftAmount();
     result.state = state;
     result.formattedTime = timer.format();
-    drawer.engGame();
+    drawer.endGame();
     endGameCallback(result);
   }
     

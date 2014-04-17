@@ -3,7 +3,8 @@ var
   express = require('express'),
   app = express(),
   assetManager = require('connect-assetmanager'),
-  mime = require('mime');
+  mime = require('mime'),
+  production = !!process.env.PORT;
 
 var assetManagerGroups = {
   'css': {
@@ -60,7 +61,7 @@ app.configure(function (){
 
 // routes
 app.get('/', function (req, res){
-  res.render('index');
+  res.render('index', {production: production});
 });
 
 app.get('/end-game', function (req, res){

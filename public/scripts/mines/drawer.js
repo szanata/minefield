@@ -101,6 +101,7 @@ define([
       $('.square').unbind('mouseup');
       this.stopTimer();
       timer.reset();
+      $timer.text(timer.format());
     },
     openAllMines: function (minesToOpen){
       var 

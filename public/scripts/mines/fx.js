@@ -5,22 +5,21 @@ define(['model'], function (model){
     currentFxClickEl = 0,
     volume = 30,
     playMethodName = '',
+    audioWrapper,
     audioSupport = true;
 
   function createDeprecatedAudioElements(){
     
-    $('body').append('<div style="display:none;" id="box_FX"></div>');
-    
     //create click effects
     for (var i = 0; i < fxElAmount; i++){
-      $('#box_FX').append('<embed src="fx/click.wav" data-fx="click" data-serial="' + i + '"/>');
+      audioWrapper.append('<embed src="fx/click.wav" data-fx="click" data-serial="' + i + '"/>');
     }
     
     //create explosion FX
-    $('#box_FX').append('<embed src="fx/explosion.wav" id="explosion"/>');
+    audioWrapper.append('<embed src="fx/explosion.wav" id="explosion"/>');
     
     //common audio properties
-    $('#box_FX > embed').attr({
+    audioWrapper.find('embed').attr({
       autostart: false,
       enablejavascript: true,
       volume: 50,
@@ -31,8 +30,6 @@ define(['model'], function (model){
     
   function createHtml5AudioElements(){
   
-    var audioWrapper = $('<div></div>')
-
     // create click audios
     for (var i = 0; i < fxElAmount; i++){  
       var audio = new Audio();
@@ -56,7 +53,8 @@ define(['model'], function (model){
   return {
     
     init:function (){
-    
+      audioWrapper = $('<div></div>');
+      
       //deteck html5 wav reprodution support
       var html5Audio = document.createElement('audio')
       if (html5Audio !== undefined && typeof html5Audio.canPlayType === 'function' && html5Audio.canPlayType('audio/wav')){
