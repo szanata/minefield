@@ -8,9 +8,9 @@ define([
 , function ($, Lollipop, loadDialog, model){
   
   var 
-    kidsPlaySettings = new model.GameSettings(10, 10, 10),
-    mediumSettings = new model.GameSettings(15, 15, 20),
-    insaneSettings = new model.GameSettings(20, 20, 50);
+    kidsPlaySettings = new model.GameSettings(10, 10, 15),
+    mediumSettings = new model.GameSettings(15, 15, 25),
+    insaneSettings = new model.GameSettings(20, 20, 60);
 
   return {
     start: function (callback){
