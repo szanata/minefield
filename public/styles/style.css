@@ -14,31 +14,48 @@ a{
   color:#1a1a1a;
 }
 
+#start-wrapper{
+  background:url('/images/start.png') no-repeat center;
+  background-size: auto 80%;
+  width:100%;
+  height:400px;
+  text-align: center;
+  display: table;
+}
+#start-wrapper a{
+  display: table-cell;
+  vertical-align: bottom;
+  bottom: 0;
+  margin:0 auto;
+  font-size:30px;
+}
+
 #top-bar{
   height:50px;
   background-color: #f2f2f2;
+  font-size:0;
 }
-#right-controls{
-  float:right;
+#right-controls{float:right;}
+#left-controls{
+  float:left;
+  margin:8px 0 0 20px;
 }
 
-#right-controls > div{
-  display: inline-block;
-}
+#right-controls > div{display: inline-block;}
 #right-controls > div > span{
   display: inline-block;
+  font-size: 14px;
 }
 .counter{
-  height:36px;
-  margin:6px;
-  border:1px solid #888;
+  height:32px;
+  margin:8px;
+  border:1px solid #999;
   box-shadow: inset 0 0 5px rgba(0,0,0,.3);
   background-color: #fff;
-  line-height: 38px;
+  line-height: 32px;
   padding: 0 10px;
   border-radius:5px;
   font-family: monospace;
-  font-size:18px;
 }
 
 
@@ -59,10 +76,10 @@ a{
   border:1px solid #f2f2f2;
   padding:0;
 }
-div.square{
+.square{
   background-color:#fff;
   background-position: center;
-  background-size: auto 60%;
+  background-size: auto 50%;
   background-repeat: no-repeat;
   position: relative;
 
@@ -82,8 +99,8 @@ div.square{
   left:0;
   right:0;
   bottom: 0;
-  padding-top: 30%;
   font-weight: bolder;
+  line-height: inherit;
 }
 .square.done.n_1:after{content:'1';color:lightblue;}
 .square.done.n_2:after{content:'2';color:green;}

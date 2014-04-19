@@ -40,19 +40,51 @@ define('main', [
   'engine',
   'endGame', 
   '../Lollipop.min']
-, function (model, $, newGame, loadDialog, fx, drawer, engine, endGame, Lollipop){
+, function (model, $, newGameDialog, loadDialog, fx, drawer, engine, endGameDialog, Lollipop){
 
-  function gameLoop(){
-    newGame.start(function (gameSettings){
-      engine.start(gameSettings, function (gameResult){
-        endGame.start(gameResult, gameLoop);
+  var lastGameSettings = null;
+
+  function startGame(gameSettings, gameInitType){
+    engine.start(gameSettings, gameInitType, function (gameResult){
+      endGameDialog.start(gameResult, function (gameInit){
+        if (gameInit === model.GameInit.RESTART){
+          restart();
+        } else {
+          newGame();
+        }
       });
     });
   }
 
+  function newGame(){
+    newGameDialog.start(function (gameSettings){
+      lastGameSettings = gameSettings;
+      startGame(gameSettings, model.GameInit.NEW_GAME);
+    });
+  }
+
+  function restart(){
+    startGame(lastGameSettings, model.GameInit.RESTART);
+  }
+
+  Lollipop.config({
+    closeOnEsc:false,
+    animateOnClose:false
+  });
+
   $(function (){
     fx.init();
     drawer.init();
-    gameLoop();
+
+    $('[data-function="restart"]').on('click', function (e){
+      e.preventDefault();
+      restart();
+    });
+    
+    $('[data-function=start]').on('click', function (e){
+      e.preventDefault();
+      $('#start-wrapper').remove();
+      newGame();
+    });
   });
 });

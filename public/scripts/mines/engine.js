@@ -25,7 +25,7 @@ define([
   /**
    * returns a square at x-y position
    */
-  var getSquare = function (x, y){
+  function getSquare(x, y){
     if (x >= settings.width || y >= settings.height || x < 0 || y < 0 ){return null;}
     for (var i = 0, li = squares.length; i < li; i++ ){
       if (x === squares[i].x && y === squares[i].y ){
@@ -33,6 +33,16 @@ define([
       }
     }
     return null;
+  }
+
+  function resetSquares(){
+    var x, y, lx = settings.width, ly = settings.height, s;
+    for (x = 0; x < lx; x++ ){
+      for (y = 0; y < ly; y++){
+        s = getSquare(x, y);
+        s.state = model.State.READY;
+      }
+    }
   }
     
   /**
@@ -74,9 +84,11 @@ define([
    * create an array with squares
    */
   function createSquares(){
-    for (var i = 0; i < settings.width; i++ ){
-      for (var j = 0; j < settings.height; j++){
-        squares.push(new model.Square(i,j));
+    squares = [];
+    var x, y, lx = settings.width, ly = settings.height;
+    for (x = 0; x < lx; x++ ){
+      for (y = 0; y < ly; y++){
+        squares.push(new model.Square(x, y));
       }
     }
   }
@@ -104,7 +116,9 @@ define([
   function testWin(){
     if (squares.every(function (s){
       return s.isContentMine() ? s.isStateMarked() : true;
-    })){
+    }) && squares.filter(function (s){
+      return s.isStateMarked();
+    }).length === settings.minesTotal){
       endGame(model.ResultState.WIN);
     }
   }
@@ -171,10 +185,9 @@ define([
       } else if (s.content === model.Content.NOTHING){
         emptyPropagation(x,y);
       }
-      
-      //reveal all win condition
-      revealedSquaresCount++;
-      if (revealedSquaresCount === emptySquaresCount){
+
+      // win by revealing all      
+      if (squares.filter(function (s){return s.isStateDone();}).length === emptySquaresCount){
         endGame(model.ResultState.WIN);
       }
     }
@@ -201,19 +214,24 @@ define([
 
   return {
     
-    start: function (_settings, _endGameCallback){
-      settings = _settings;
+    start: function (_settings, initType, _endGameCallback){
       result = new model.Result();
       endGameCallback = _endGameCallback;
-      squares = [];
-      createSquares();
-      putMines();
-      putIndicators();
+      if (initType === model.GameInit.NEW_GAME){
+        settings = _settings;
+        createSquares();
+        putMines();
+        putIndicators();  
+      } else {
+        resetSquares();
+      }
+      timer.reset();
       timer.start();
       drawer.field(settings.width, settings.height, rClick, lClick);
       drawer.startTimer();
       drawer.updateFlagsCount(settings.minesTotal);
       emptySquaresCount = (settings.width * settings.height) - settings.minesTotal;
-    }
+      drawer.startGame();
+    },
   };        
 });

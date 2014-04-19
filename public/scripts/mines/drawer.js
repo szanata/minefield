@@ -15,18 +15,6 @@ define([
     init: function (){
       $timer = $('#timer');
       $flagsCounter = $('#flags-counter');
-
-      //creates the listener to pause
-      var _this = this;
-      $(document).bind('keypress', function (event){
-        if (event.keyCode === 32){ //space
-          if (paused){
-            _this.resumeGame();
-          } else {
-            _this.pauseGame();
-          }
-        }
-      });
     },
 
     startTimer: function (){
@@ -42,11 +30,12 @@ define([
     field: function (x, y, rcCallback, lcCallback){
 
       $('#field').remove();
+      $('#left-controls').show();
       $('#field-wrapper').append('<div id="field"></div>');
       $('#field').bind('click mousedown contextmenu mouseup',function (){
         return false;
       });
-      $('#field').focus();
+      //$('#field').focus();
             
       var s = Math.floor( ( $(window).height() - 100 - (y*2) ) / y );      
       var table = $('<table></table>');
@@ -66,8 +55,12 @@ define([
         table.append(row);
       }
       $('#field').append(table);
-      $('.square').width(s);
-      $('.square').height(s);
+      $('.square').css({
+        fontSize: (s / 2) + 'px',
+        lineHeight: s + 'px',
+        width:s + 'px',
+        height:s + 'px'
+      });
       $('.square').on('mouseup', function (e){
         if (e.button === 0 || e.button === 1){      
           lcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
@@ -97,8 +90,25 @@ define([
     readyState: function (x, y){
       $('#s_{0}_{1}'.format(x, y)).removeClass('marked doubt');
     },
+    startGame: function (){
+      var _this = this;
+      $(document).bind('keypress.pause', function (e){
+        if (e.keyCode === 32){ //space
+          e.preventDefault();
+          _this[paused ? 'resumeGame' : 'pauseGame']();
+        }
+      });
+
+      $('[data-function="pause"]').on('click', function (e){
+        e.preventDefault();
+        _this[paused ? 'resumeGame' : 'pauseGame']();
+      });
+    },
     endGame:function (){
       $('.square').unbind('mouseup');
+      $(document).unbind('keypress.pause');
+      $('[data-function="pause"]').unbind('click');
+      $('#left-controls').hide();
       this.stopTimer();
       timer.reset();
       $timer.text(timer.format());
@@ -125,12 +135,13 @@ define([
       $('#field').hide();
       Lollipop.open({
         showTitle:false,
-        content:'<h1>Pause</h1>',
+        animate:false,
+        minHeight:50,
+        content:'<h1>Waiting for you :)</h1><p><b>Pro tip</b>: use <i>spacebar</i> to pause/unpause game.</p>',
         showCancelButton:false,
         buttons:[{
-          title:'Unpause',
+          title:'Resume',
           click: function (){
-            Lollipop.close();
             _this.resumeGame();
           }
         }]
@@ -139,7 +150,7 @@ define([
     resumeGame: function (){
       paused = false;
       timer.start();
-      Lollipop.close();
+      Lollipop.close(true);
       $('#field').show();
     }
   }

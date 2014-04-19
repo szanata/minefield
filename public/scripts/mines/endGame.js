@@ -47,7 +47,14 @@ define([
               title:'Restart',
               click: function (){
                 Lollipop.close(true);
-                callback();
+                callback(model.GameInit.RESTART);
+              }
+            },
+            {
+              title:'New game',
+              click: function (){
+                Lollipop.close(true);
+                callback(model.GameInit.NEW_GAME);
               }
             }
           ]

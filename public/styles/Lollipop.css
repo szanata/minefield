@@ -26,6 +26,7 @@
   background-color:#f2f2f2;
   padding:10px;
 }
+.button,
 #lollipop-popup-footer button,
 #lollipop-popup-footer .button{
   outline:none;
@@ -33,7 +34,6 @@
   -webkit-appearance:none;
   -moz-appearance:none;
   appearance:none;
-  line-height:normal;
   font-size:15px;
   height:34px;
   line-height:34px;
@@ -45,12 +45,15 @@
   border-radius:4px;
   box-shadow:inset 0px 10px 10px #eee, inset 0px -10px 10px #ccc,0px 1px 2px #ccc;
   cursor:pointer;
-  
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
   vertical-align:top;
 }
+.button,
+.button:active,
+.button:visited,
+.button:hover,
 #lollipop-popup-footer .button,
 #lollipop-popup-footer .button:active,
 #lollipop-popup-footer .button:visited,
@@ -58,5 +61,6 @@
   text-decoration:none;
   display:inline-block;
 }
+.button:first-child,
 #lollipop-popup-footer button:first-child,
 #lollipop-popup-footer .button:first-child{margin:0;}

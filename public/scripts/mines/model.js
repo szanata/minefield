@@ -19,6 +19,12 @@ define(function (){
 	};
 	model.SoundType = SoundType;
 
+	var GameInit ={
+		RESTART: 0,
+		NEW_GAME: 1
+	}
+	model.GameInit = GameInit;
+
 	var GameDifficulty = {
 		KIDS_PLAY:'kids-play',
 		MEDIUM:'medium',

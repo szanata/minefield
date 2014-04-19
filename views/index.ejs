@@ -9,7 +9,12 @@
       
       <title>Minefield</title>
       <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+      <% if (production){ %>
       <link href="static/style.css" rel="stylesheet" type="text/css" />
+      <% } else {%>
+      <link href="/styles/style.css" rel="stylesheet" type="text/css" />
+      <link href="/styles/Lollipop.css" rel="stylesheet" type="text/css" />
+      <% } %>
     </head>
     <body>
       <div style="width:0;height:0;overflow:hidden">
@@ -23,6 +28,10 @@
         <img alt="lose" src="/images/lose.png" width="1200" height="1200" />
       </div>
       <div id="top-bar">
+        <div id="left-controls" style="display:none;">
+          <a href="#" class="button" data-function="restart">Restart</a>
+          <a href="#" class="button" data-function="pause">Pause</a>
+        </div>
         <div id="right-controls">
           <div>
             <span>Mines left</span>
@@ -33,6 +42,10 @@
             <span class="counter" id="timer">00:00:00</span>
           </div>
         </div>
+      </div>
+      <div id="start-wrapper">
+        
+        <a href="#" data-function="start">Click here to start</a>
       </div>
       <div id="field-wrapper"></div>
 
