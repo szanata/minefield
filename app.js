@@ -9,30 +9,21 @@ var
 
 var assetManagerGroups = {
   'css': {
-    'route': /\/static\/style\.css/,
+    //'route': /\/static\/style\.css/,
+    'route': /\/all\.css/,
     'path': __dirname + '/public/styles/',
     'dataType': 'css',
-    'files': [ 'style.css', 'Lollipop.css' ]
+    'files': [ 
+      'opensans/stylesheet.css', 
+      'armaliterifle/stylesheet.css',
+      'style.css' 
+    ]
   }/*,
   'js': {
     'route': /\/static\/script\.js/,
     'path': __dirname + '/public/scripts/',
     'dataType': 'javascript',
-    'files': [ 
-      'jquery-2.1.0.min.js', 
-      'Lollipop.min.js',
-      'require.js',
-      'spin.min.js',
-      'mines/drawer.js',
-      'mines/endGame.js',
-      'mines/engine.js',
-      'mines/fx.js',
-      'mines/loadDialog.js',
-      'mines/main.js',
-      'mines/model.js',
-      'mines/newGame.js',
-      'mines/timer.js'
-    ],
+    'files': [],
     'stale':!!process.env.PORT,
     'debug':!process.env.PORT
   },*/

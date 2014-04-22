@@ -9,46 +9,43 @@
       
       <title>Minefield</title>
       <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+      
       <% if (production){ %>
-      <link href="static/style.css" rel="stylesheet" type="text/css" />
+        <link href="/all.css" rel="stylesheet" type="text/css" />
       <% } else {%>
-      <link href="/styles/style.css" rel="stylesheet" type="text/css" />
-      <link href="/styles/Lollipop.css" rel="stylesheet" type="text/css" />
+        <link href="/styles/opensans/stylesheet.css" rel="stylesheet" type="text/css" />
+        <link href="/styles/armaliterifle/stylesheet.css" rel="stylesheet" type="text/css" />
+        <link href="/styles/style.css" rel="stylesheet" type="text/css" />
       <% } %>
     </head>
     <body>
       <div style="width:0;height:0;overflow:hidden">
-        <img alt="marked" src="/images/marked.png" width="480" height="480" />
-        <img alt="doubt" src="/images/doubt.png" width="480" height="480" />
-        <img alt="mine" src="/images/mine.png" width="480" height="480" />
-        <img alt="kids-play" src="/images/kids-play.png" width="1200" height="1200" />
-        <img alt="medium" src="/images/medium.png" width="1200" height="1200" />
-        <img alt="isane" src="/images/insane.png" width="1200" height="1200" />
-        <img alt="win" src="/images/win.png" width="1200" height="1200" />
-        <img alt="lose" src="/images/lose.png" width="1200" height="1200" />
+        <img alt="marked" src="/images/marked.svg" width="480" height="480" />
+        <img alt="doubt" src="/images/doubt.svg" width="480" height="480" />
+        <img alt="mine" src="/images/mine.svg" width="480" height="480" />
+        <img alt="kids-play" src="/images/kids-play.svg" width="1200" height="1200" />
+        <img alt="medium" src="/images/medium.svg" width="1200" height="1200" />
+        <img alt="isane" src="/images/insane.svg" width="1200" height="1200" />
+        <img alt="win" src="/images/win.svg" width="1200" height="1200" />
+        <img alt="lose" src="/images/lose.svg" width="1200" height="1200" />
       </div>
-      <div id="top-bar">
-        <div id="left-controls" style="display:none;">
+      <header id="top-bar">
+        <h1 id="logo">Minefield</h1>
+        <div id="left-controls" style="display:none">
           <a href="#" class="button" data-function="restart">Restart</a>
           <a href="#" class="button" data-function="pause">Pause</a>
         </div>
-        <div id="right-controls">
-          <div>
-            <span>Mines left</span>
-            <span class="counter" id="flags-counter">0</span>
-          </div>
-          <div>
-            <span>Time</span>
-            <span class="counter" id="timer">00:00:00</span>
-          </div>
+        <div id="right-controls" style="display:none">
+          <span class="counter" id="flags-counter">0</span>
+          <span class="counter" id="timer">0:00:00</span>
         </div>
-      </div>
+      </header>
+      <div id="bg-wrapper"></div>
       <div id="start-wrapper">
-        
-        <a href="#" data-function="start">Click here to start</a>
+        <a href="#" data-function="start">- Click here to start -</a>
       </div>
       <div id="field-wrapper"></div>
-
+      <footer>Developed by Stéfano Zanata @ <a href="http://szanata.com" target="_blank">szanata.com</a></footer>
       <% if (production){ %>
       <script type="text/javascript" src="scripts/main-build.js"></script>
       <% } else { %>

@@ -1,6 +1,7 @@
 ﻿/**
 * Default Lollipop style
 */
+
 #lollipop-block-layer{
   background-color:rgba(0,0,0,.7);
 }
@@ -26,7 +27,6 @@
   background-color:#f2f2f2;
   padding:10px;
 }
-.button,
 #lollipop-popup-footer button,
 #lollipop-popup-footer .button{
   outline:none;
@@ -50,10 +50,6 @@
   box-sizing:border-box;
   vertical-align:top;
 }
-.button,
-.button:active,
-.button:visited,
-.button:hover,
 #lollipop-popup-footer .button,
 #lollipop-popup-footer .button:active,
 #lollipop-popup-footer .button:visited,
@@ -61,6 +57,5 @@
   text-decoration:none;
   display:inline-block;
 }
-.button:first-child,
 #lollipop-popup-footer button:first-child,
 #lollipop-popup-footer .button:first-child{margin:0;}

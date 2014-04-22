@@ -8,6 +8,7 @@ define([
     paused = false,
     timerInterval,
     $timer,
+    minHeight = 600,
     $flagsCounter;
   
   return {
@@ -15,6 +16,9 @@ define([
     init: function (){
       $timer = $('#timer');
       $flagsCounter = $('#flags-counter');
+      $(window).on('resize.footer', function (){
+        $('footer').css('position', $(document).height() > $(window).height() ? 'relative' : 'absolute');
+      }).trigger('resize.footer');
     },
 
     startTimer: function (){
@@ -29,37 +33,52 @@ define([
 
     field: function (x, y, rcCallback, lcCallback){
 
+      var 
+        h = $(window).height() > minHeight ? $(window).height() : minHeight,
+        w = Math.floor((h - 100 - (y*2)) / y),
+        table = $('<table></table>'),
+        i, j, row, cell;
+
+      $(window).on('resize.field', function (){
+        var
+          h = $(window).height() > minHeight ? $(window).height() : minHeight,
+          w = Math.floor((h - 100 - (y*2)) / y);
+        $('.square').css({
+          fontSize:(w / 2) + 'px',
+          lineHeight:w + 'px',
+          width:w + 'px',
+          height:w + 'px'
+        });
+      });
+
       $('#field').remove();
       $('#left-controls').show();
+      $('#right-controls').show();
       $('#field-wrapper').append('<div id="field"></div>');
       $('#field').bind('click mousedown contextmenu mouseup',function (){
         return false;
       });
-      //$('#field').focus();
             
-      var s = Math.floor( ( $(window).height() - 100 - (y*2) ) / y );      
-      var table = $('<table></table>');
-            
-      for (var i = 0; i < y; i++){
-        var row = $('<tr></tr>');
-        for (var j = 0; j < x; j++){
-          var cell = $('<td></td>');
-          cell.append($('<div></div>').attr({
-            'id':'s_' + j + '_' + i,
-            'class':'square corners',
+      for (i = 0; i < y; i++){
+        row = $('<tr></tr>');
+        for (j = 0; j < x; j++){
+          cell = $('<td></td>');
+          cell.attr({
+            'id':'s_{0}_{1}'.format(j, i),
+            'class':'square',
             'data-y':i,
             'data-x':j
-          }));
+          });
           row.append(cell);
         }
         table.append(row);
       }
       $('#field').append(table);
       $('.square').css({
-        fontSize: (s / 2) + 'px',
-        lineHeight: s + 'px',
-        width:s + 'px',
-        height:s + 'px'
+        fontSize:(w / 2) + 'px',
+        lineHeight:w + 'px',
+        width:w + 'px',
+        height:w + 'px'
       });
       $('.square').on('mouseup', function (e){
         if (e.button === 0 || e.button === 1){      
@@ -68,7 +87,6 @@ define([
           rcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
         }
       });
-      $('#field').width( table.width() );
     },
     doneState: function (x, y, c){
       var s = '#s_{0}_{1}'.format(x, y);
@@ -107,6 +125,7 @@ define([
     endGame:function (){
       $('.square').unbind('mouseup');
       $(document).unbind('keypress.pause');
+      $(window).unbind('resize.field');
       $('[data-function="pause"]').unbind('click');
       $('#left-controls').hide();
       this.stopTimer();

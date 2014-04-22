@@ -11,7 +11,8 @@ define([
         lines: 11, 
         length: 20,
         width: 10,
-        radius:20
+        radius:20,
+        color:'#fff'
       }).spin(ld);
       Lollipop.open({
         content:ld,
