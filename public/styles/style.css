@@ -100,7 +100,15 @@ a{
   -moz-animation-duration: 1s;
   animation-duration: 1s;
 }
-@-webkit-keyframes blinker {  
+@-webkit-keyframes blinker{
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+@-moz-keyframes blinker{
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+@keyframes blinker {  
   from { opacity: 1.0; }
   to { opacity: 0.0; }
 }

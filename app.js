@@ -9,7 +9,6 @@ var
 
 var assetManagerGroups = {
   'css': {
-    //'route': /\/static\/style\.css/,
     'route': /\/all\.css/,
     'path': __dirname + '/public/styles/',
     'dataType': 'css',
@@ -47,7 +46,7 @@ app.configure(function (){
     'image/svg+xml': ['svg'],
     'application/vnd.ms-fontobject': ['eot'],
     'application/x-font-woff': ['woff'],
-    'audio/vnd.wav': ['wav']
+    'audio/wav': ['wav']
   });
 });
 
