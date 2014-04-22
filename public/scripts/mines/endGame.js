@@ -12,11 +12,25 @@ define([
       $('<div></div>').load('/end-game', function (){
         loadDialog.stop();
         var $this = $(this.innerHTML);
+        var buttons = [{
+          title:'New game',
+          click: function (){
+            Lollipop.close(true);
+            callback(model.GameInit.NEW_GAME);
+          }
+        }];
 
         if (gameResult.state === model.ResultState.WIN){
           $this.find('#lose-badge').hide();
         } else {
           $this.find('#win-badge').hide();
+          buttons.push({
+            title:'Restart',
+            click: function (){
+              Lollipop.close(true);
+              callback(model.GameInit.RESTART);
+            }
+          });
         }
 
         $this.find('[data-value="squares-revealed"]').text(
@@ -42,22 +56,7 @@ define([
               $(this).toggleClass('selected');
             });
           },
-          buttons:[
-            {
-              title:'Restart',
-              click: function (){
-                Lollipop.close(true);
-                callback(model.GameInit.RESTART);
-              }
-            },
-            {
-              title:'New game',
-              click: function (){
-                Lollipop.close(true);
-                callback(model.GameInit.NEW_GAME);
-              }
-            }
-          ]
+          buttons: buttons
         });
       });
     }

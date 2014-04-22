@@ -11,6 +11,25 @@ define([
     minHeight = 600,
     $flagsCounter;
   
+  function resizeSquares(w){
+    $('.square').css({
+      fontSize:(w / 2) + 'px',
+      lineHeight:w + 'px',
+      width:w + 'px',
+      height:w + 'px'
+    });
+  }
+
+  function bindSquaresEvents(lcCallback, rcCallback){
+    $('.square').on('mouseup', function (e){
+      if (e.button === 0 || e.button === 1){      
+        lcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
+      } else {
+        rcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
+      }
+    });
+  }
+
   return {
 
     init: function (){
@@ -36,58 +55,40 @@ define([
       var 
         h = $(window).height() > minHeight ? $(window).height() : minHeight,
         w = Math.floor((h - 100 - (y*2)) / y),
-        table = $('<table></table>'),
-        i, j, row, cell;
+        i, j, cell, $field = $('<div id="field"></div>');
 
       $(window).on('resize.field', function (){
         var
           h = $(window).height() > minHeight ? $(window).height() : minHeight,
           w = Math.floor((h - 100 - (y*2)) / y);
-        $('.square').css({
-          fontSize:(w / 2) + 'px',
-          lineHeight:w + 'px',
-          width:w + 'px',
-          height:w + 'px'
-        });
+        resizeSquares(w);
       });
 
       $('#field').remove();
-      $('#left-controls').show();
-      $('#right-controls').show();
-      $('#field-wrapper').append('<div id="field"></div>');
-      $('#field').bind('click mousedown contextmenu mouseup',function (){
+      $('#field-wrapper').append($field);
+      $field.width(w * x)
+        .height(w * y)
+        .on('click mousedown contextmenu mouseup',function (){
         return false;
       });
             
       for (i = 0; i < y; i++){
-        row = $('<tr></tr>');
         for (j = 0; j < x; j++){
-          cell = $('<td></td>');
+          cell = $('<div></div>');
           cell.attr({
             'id':'s_{0}_{1}'.format(j, i),
             'class':'square',
             'data-y':i,
             'data-x':j
           });
-          row.append(cell);
+          $field.append(cell);
         }
-        table.append(row);
       }
-      $('#field').append(table);
-      $('.square').css({
-        fontSize:(w / 2) + 'px',
-        lineHeight:w + 'px',
-        width:w + 'px',
-        height:w + 'px'
-      });
-      $('.square').on('mouseup', function (e){
-        if (e.button === 0 || e.button === 1){      
-          lcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
-        } else {
-          rcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
-        }
-      });
+      resizeSquares(w);
+      bindSquaresEvents(lcCallback, rcCallback);
+      $('#left-controls, #right-controls').show();
     },
+
     doneState: function (x, y, c){
       var s = '#s_{0}_{1}'.format(x, y);
       $(s).removeClass('doubt marked');
@@ -127,7 +128,6 @@ define([
       $(document).unbind('keypress.pause');
       $(window).unbind('resize.field');
       $('[data-function="pause"]').unbind('click');
-      $('#left-controls').hide();
       this.stopTimer();
       timer.reset();
       $timer.text(timer.format());
