@@ -1,4 +1,4 @@
-define(['model'], function (model){
+define(['model', 'jquery'], function (model, $){
 
   var
     fxElAmount = 10,

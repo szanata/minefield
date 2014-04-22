@@ -55,12 +55,4 @@ app.get('/', function (req, res){
   res.render('index', {production: production});
 });
 
-app.get('/end-game', function (req, res){
-  res.render('endGame');
-});
-
-app.get('/new-game', function (req, res){
-  res.render('newGame');
-});
-
 app.listen(process.env.PORT || 3456);

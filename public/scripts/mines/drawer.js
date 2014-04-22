@@ -1,8 +1,9 @@
 define([
+  'jquery',
   'model', 
   'timer',
   '../Lollipop.min']
-, function (model, timer, Lollipop){
+, function ($, model, timer, Lollipop){
 	
   var
     paused = false,

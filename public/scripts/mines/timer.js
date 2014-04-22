@@ -3,7 +3,7 @@
  * 
  * A simple stopwatch implementation.
  */
-define(function (){
+define([], function (){
 
   var
     startingTime = 0,

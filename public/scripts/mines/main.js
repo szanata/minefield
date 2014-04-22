@@ -33,14 +33,14 @@ require.config({
 define('main', [
   'model',
   'jquery',
+  'partials',
   'newGame',
-  'loadDialog',
   'fx',
   'drawer',
   'engine',
-  'endGame', 
+  'endGame',
   '../Lollipop.min']
-, function (model, $, newGameDialog, loadDialog, fx, drawer, engine, endGameDialog, Lollipop){
+, function (model, $, partials, newGameDialog, fx, drawer, engine, endGameDialog, Lollipop){
 
   var lastGameSettings = null;
 
@@ -73,6 +73,7 @@ define('main', [
   });
 
   $(function (){
+    partials.init();
     fx.init();
     drawer.init();
 

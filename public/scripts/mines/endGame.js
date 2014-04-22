@@ -1,63 +1,59 @@
 define([
   'model',
-  'loadDialog',
+  'jquery',
+  'partials',
   '../Lollipop.min']
-, function (model, loadDialog, Lollipop){
+, function (model, $, partials, Lollipop){
   
 
   return {
     start: function (gameResult, callback){
+      var $this = partials.endGame;
+      var buttons = [{
+        title:'New game',
+        click: function (){
+          Lollipop.close(true);
+          callback(model.GameInit.NEW_GAME);
+        }
+      }];
 
-      loadDialog.start();
-      $('<div></div>').load('/end-game', function (){
-        loadDialog.stop();
-        var $this = $(this.innerHTML);
-        var buttons = [{
-          title:'New game',
+      if (gameResult.state === model.ResultState.WIN){
+        $this.find('#lose-badge').hide();
+      } else {
+        $this.find('#win-badge').hide();
+        buttons.push({
+          title:'Restart',
           click: function (){
             Lollipop.close(true);
-            callback(model.GameInit.NEW_GAME);
+            callback(model.GameInit.RESTART);
           }
-        }];
-
-        if (gameResult.state === model.ResultState.WIN){
-          $this.find('#lose-badge').hide();
-        } else {
-          $this.find('#win-badge').hide();
-          buttons.push({
-            title:'Restart',
-            click: function (){
-              Lollipop.close(true);
-              callback(model.GameInit.RESTART);
-            }
-          });
-        }
-
-        $this.find('[data-value="squares-revealed"]').text(
-          '{0} ({1}%)'.format(
-            gameResult.squaresRevealed, 
-            Math.round(gameResult.squaresRevealedPercent * 100) / 100
-          )
-        );
-        $this.find('[data-value="clicks"]').text(gameResult.clicks);
-        $this.find('[data-value="time"]').text(gameResult.formattedTime);
-        $this.find('[data-value="mines-left"]').text(gameResult.minesLeft);
-
-        Lollipop.open({
-          content:$this,
-          title:'Game over',
-          showCancelButton: false,
-          maxHeight:'auto',
-          height:'auto',
-          onOpen: function (){
-            $(this).find('a[data-difficulty]').on('click', function (e){
-              e.preventDefault();
-              $(this).siblings('.selected').removeClass('selected');
-              $(this).toggleClass('selected');
-            });
-          },
-          buttons: buttons
         });
+      }
+
+      $this.find('[data-value="squares-revealed"]').text(
+        '{0} ({1}%)'.format(
+          gameResult.squaresRevealed, 
+          Math.round(gameResult.squaresRevealedPercent * 100) / 100
+        )
+      );
+      $this.find('[data-value="clicks"]').text(gameResult.clicks);
+      $this.find('[data-value="time"]').text(gameResult.formattedTime);
+      $this.find('[data-value="mines-left"]').text(gameResult.minesLeft);
+
+      Lollipop.open({
+        content:$this,
+        title:'Game over',
+        showCancelButton: false,
+        maxHeight:'auto',
+        height:'auto',
+        onOpen: function (){
+          $(this).find('a[data-difficulty]').on('click', function (e){
+            e.preventDefault();
+            $(this).siblings('.selected').removeClass('selected');
+            $(this).toggleClass('selected');
+          });
+        },
+        buttons: buttons
       });
     }
   }
