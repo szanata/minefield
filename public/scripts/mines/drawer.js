@@ -85,13 +85,13 @@ define([
 
       var 
         h = $(window).height() > minHeight ? $(window).height() : minHeight,
-        w = Math.floor((h - 100 - (y*2)) / y),
+        w = Math.floor((h - 90) / y),
         i, j, cell, $field = $('<div id="field"></div>');
 
       $(window).on('resize.field', function (){
         var
           h = $(window).height() > minHeight ? $(window).height() : minHeight,
-          w = Math.floor((h - 100 - (y*2)) / y);
+          w = Math.floor((h - 90) / y);
           $field.width(w * x).height(w * y);
         resizeSquares(w);
       });
