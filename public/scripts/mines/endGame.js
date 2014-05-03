@@ -2,27 +2,36 @@ define([
   'model',
   'jquery',
   'partials',
+  'drawer',
   '../Lollipop.min']
-, function (model, $, partials, Lollipop){
+, function (model, $, partials, drawer, Lollipop){
   
 
   return {
     start: function (gameResult, callback){
       var $this = partials.endGame;
-      var buttons = [{
-        title:'New game',
-        click: function (){
-          Lollipop.close(true);
-          callback(model.GameInit.NEW_GAME);
+      var buttons = [
+        {
+          title:'New game',
+          click: function (){
+            Lollipop.close(true);
+            callback(model.GameInit.NEW_GAME);
+          }
+        },
+        {
+          title:'View field',
+          click: function (){
+            drawer.viewField();
+          }
         }
-      }];
+      ];
 
       if (gameResult.state === model.ResultState.WIN){
         $this.find('#lose-badge').hide();
       } else {
         $this.find('#win-badge').hide();
         buttons.push({
-          title:'Restart',
+          title:'Restart same game',
           click: function (){
             Lollipop.close(true);
             callback(model.GameInit.RESTART);

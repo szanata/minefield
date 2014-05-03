@@ -2,8 +2,9 @@ define([
   'jquery',
   'model', 
   'timer',
+  'partials',
   '../Lollipop.min']
-, function ($, model, timer, Lollipop){
+, function ($, model, timer, partials, Lollipop){
 	
   var
     paused = false,
@@ -39,6 +40,10 @@ define([
       $(window).on('resize.footer', function (){
         $('footer').css('position', $(document).height() > $(window).height() ? 'relative' : 'absolute');
       }).trigger('resize.footer');
+
+      $(window).on('resize.controls', function (){
+        $('body')[$(window).width() < 700 ? 'addClass' : 'removeClass']('compact');
+      }).trigger('resize.controls');
     },
 
     startTimer: function (){
@@ -51,6 +56,31 @@ define([
 
     updateFlagsCount: function (n){$flagsCounter.text(n);},
 
+    viewField: function (){
+      var vewFieldTitle = partials.viewFieldTitle;
+      $('body').append(vewFieldTitle);
+      $('#field').css({
+        zIndex: 999999, 
+        position: 'absolute',
+        left: ($(document).width() / 2) - ($('#field').width() / 2) + 'px'
+      }).addClass('no-hover');
+      $(window).on('resize.viewField', function (){
+        $('#field').css('left', ($(document).width() / 2) - ($('#field').width() / 2) + 'px');
+      });
+      setTimeout(function (){
+        $('*').on('click.viewField', function (){
+          $('#field').css({
+            zIndex: 'auto', 
+            position: 'relative',
+            left: 'auto'
+          }).removeClass('no-hover');
+          $(window).off('resize.viewField');
+          $('*').off('click.viewField');
+          vewFieldTitle.remove();
+        });
+      }, 0);
+    },
+
     field: function (x, y, rcCallback, lcCallback){
 
       var 
@@ -62,6 +92,7 @@ define([
         var
           h = $(window).height() > minHeight ? $(window).height() : minHeight,
           w = Math.floor((h - 100 - (y*2)) / y);
+          $field.width(w * x).height(w * y);
         resizeSquares(w);
       });
 

@@ -181,7 +181,7 @@ define([
       if (s.isContentMine()){
         fx.play(model.SoundType.EXPLOSION);
         endGame(model.ResultState.LOSE);
-        revealMines();
+        //revealMines();
       } else if (s.content === model.Content.NOTHING){
         emptyPropagation(x,y);
       }

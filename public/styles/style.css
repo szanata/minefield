@@ -8,7 +8,7 @@
 body{
   margin: 0;
   min-width:600px;
-  min-height:400px;
+  min-height:480px;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -29,6 +29,7 @@ a{
   text-decoration: none;
   color:#1a1a1a;
 }
+p{margin:0 0 10px;}
 
 #top-bar{
   height:50px;
@@ -45,18 +46,9 @@ a{
   color:#fff;
   display: inline-block;
 }
-#left-controls{
-  display: inline-block;
-}
+.compact #logo{display: block;}
+#left-controls{display: inline-block;}
 #right-controls{float:right;}
-#timer{
-  background-image: url('/images/time.svg');
-  background-size: auto 35%;
-}
-#flags-counter{
-  background-image: url('/images/mine-light.svg');
-  background-size: auto 45%;
-}
 .counter{
   background-position: center left;
   background-repeat: no-repeat;
@@ -68,7 +60,25 @@ a{
   display: inline-block;
   margin:0 10px;
 }
-
+#timer{
+  background-image: url('/images/time.svg');
+  background-size: auto 35%;
+}
+#flags-counter{
+  background-image: url('/images/mine-light.svg');
+  background-size: auto 45%;
+}
+#view-field-title{
+  position: absolute;
+  top:0;
+  color:#fff;
+  font-size:18px;
+  line-height: 24px;
+  text-align: center;
+  width: 100%;
+  z-index:999999;
+  text-shadow:none;
+}
 #start-wrapper{
   top:0;
   left:0;
@@ -149,7 +159,7 @@ a{
 }
 .square:not(.mine):not(.done){cursor: pointer;}
 .square:not(.mine):not(.done):not(.doubt):not(.marked){}
-.square:not(.mine):not(.done):not(.doubt):not(.marked):hover:after{
+#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked):hover:after{
   border:1px solid #E37900;
   content:'';
   top:-1px;
@@ -219,7 +229,7 @@ a{
 }
 #new-game-options a{
   display: inline-block;
-  width:32%;
+  width:24%;
   height:120px;
   background-repeat:no-repeat;
   background-position: center 20%;
@@ -246,11 +256,12 @@ a{
   text-align: center;
 }
 #new-game-options a:not(:last-child){
-  margin-right:2%;
+  margin-right:1%;
 }
 #new-game-options a[data-difficulty="kids-play"]{background-image:url('/images/kids-play.svg');}
 #new-game-options a[data-difficulty="medium"]{background-image:url('/images/medium.svg');}
 #new-game-options a[data-difficulty="insane"]{background-image:url('/images/insane.svg');}
+#new-game-options a[data-difficulty="custom"]{background-image:url('/images/custom.svg');}
 
 footer{
   position: absolute;
@@ -347,4 +358,26 @@ button:not(:last-child),
 #lollipop-popup-footer{
   text-align:center;
   padding:10px;
+}
+
+.custom-game-content small{
+  display: block;
+}
+.custom-game-content-field-wrapper{
+  margin-bottom:10px;
+}
+.custom-game-content input{
+  border:1px solid #000;
+  font-size:18px;
+  padding: 2px 10px;
+  text-shadow:none!important;
+  color:#1a1a1a!important;
+  border-radius:5px;
+  margin:0 5px;
+  width:50px;
+}
+.error{
+  display: block;
+  color:red!important;
+  font-size:14px;
 }

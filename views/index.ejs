@@ -19,19 +19,24 @@
       <% } %>
     </head>
     <body>
+      <!-- preload -->
       <div style="width:0;height:0;overflow:hidden">
         <img alt="marked" src="/images/marked.svg" width="480" height="480" />
         <img alt="doubt" src="/images/doubt.svg" width="480" height="480" />
         <img alt="mine" src="/images/mine.svg" width="480" height="480" />
         <img alt="kids-play" src="/images/kids-play.svg" width="1200" height="1200" />
         <img alt="medium" src="/images/medium.svg" width="1200" height="1200" />
-        <img alt="isane" src="/images/insane.svg" width="1200" height="1200" />
+        <img alt="insane" src="/images/insane.svg" width="1200" height="1200" />
+        <img alt="custom" src="/images/custom.svg" width="1200" height="1200" />
         <img alt="win" src="/images/win.svg" width="1200" height="1200" />
         <img alt="lose" src="/images/lose.svg" width="1200" height="1200" />
+        <audio src="/fx/square_click.wav"></audio>
+        <audio src="/fx/explosion.wav"></audio>
       </div>
       <header id="top-bar">
         <h1 id="logo">Minefield</h1>
         <div id="left-controls" style="display:none">
+          <a href="#" class="button" data-function="new-game">New Game</a>
           <a href="#" class="button" data-function="restart">Restart</a>
           <a href="#" class="button" data-function="pause">Pause</a>
         </div>
@@ -45,7 +50,7 @@
         <a href="#" data-function="start">- Click here to start -</a>
       </div>
       <div id="field-wrapper"></div>
-      <footer>Developed by Stéfano Zanata @ <a href="http://szanata.com" target="_blank">szanata.com</a></footer>
+      <footer><small>Developed by Stéfano Zanata @ <a href="http://szanata.com" target="_blank">szanata.com</a> 2014 v1.1</small></footer>
       <% if (production){ %>
       <script type="text/javascript" src="scripts/main-build.js"></script>
       <% } else { %>

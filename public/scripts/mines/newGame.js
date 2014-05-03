@@ -4,8 +4,9 @@ define([
   'jquery',
   'partials',
   '../Lollipop.min', 
-  'model']
-, function ($, partials, Lollipop, model){
+  'model',
+  'customGame']
+, function ($, partials, Lollipop, model, customGame){
   
   var 
     kidsPlaySettings = new model.GameSettings(10, 10, 10),
@@ -14,16 +15,20 @@ define([
 
   return {
     start: function (callback){
+      var _this = this;
       var $this = partials.newGame;
       
       Lollipop.open({
         content:$this,
         title:'New game',
+        width:'600px',
         showCancelButton: false,
         onOpen: function (){
           $(this).find('a[data-difficulty]').on('click', function (e){
             e.preventDefault();
-            switch ($(this).attr('data-difficulty')){
+            var difficulty = $(this).attr('data-difficulty');
+            Lollipop.close();
+            switch (difficulty){
               case model.GameDifficulty.INSANE:
                 callback(insaneSettings);
                 break;
@@ -33,8 +38,10 @@ define([
               case model.GameDifficulty.KIDS_PLAY:
                 callback(kidsPlaySettings);
                 break;
+              case model.GameDifficulty.CUSTOM:
+                customGame.start(callback, _this);
+                break;
             }
-            Lollipop.close();
           });
         }
       });

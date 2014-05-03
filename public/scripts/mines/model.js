@@ -1,7 +1,7 @@
 /**
  * state constants
  */
-define(function (){
+define([], function (){
 
 	var model = {};
 
@@ -28,7 +28,8 @@ define(function (){
 	var GameDifficulty = {
 		KIDS_PLAY:'kids-play',
 		MEDIUM:'medium',
-		INSANE:'insane'
+		INSANE:'insane',
+		CUSTOM:'custom'
 	};
 	model.GameDifficulty = GameDifficulty;
 	/**

@@ -74,15 +74,19 @@ define('main', [
 
   $(function (){
     partials.init();
-    fx.init();
     drawer.init();
 
     $('[data-function="restart"]').on('click', function (e){
       e.preventDefault();
       restart();
     });
+
+    $('[data-function="new-game"]').on('click', function (e){
+      e.preventDefault();
+      newGame();
+    });
     
-    $('[data-function=start]').on('click', function (e){
+    $('[data-function="start"]').on('click', function (e){
       e.preventDefault();
       $('#start-wrapper').remove();
       newGame();
