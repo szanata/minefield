@@ -2,7 +2,8 @@ minefield
 =========
 
 Simple js minefield game
-Play it at: http://minefield.szanata.com
+
+Play at: http://minefield.szanata.com
 
 
 Changelog
