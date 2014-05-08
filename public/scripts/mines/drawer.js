@@ -3,14 +3,18 @@ define([
   'model', 
   'timer',
   'partials',
-  '../Lollipop.min']
-, function ($, model, timer, partials, Lollipop){
+  '../Lollipop.min',
+  'cookies',
+  'fx']
+, function ($, model, timer, partials, Lollipop, cookies, fx){
 	
   var
     paused = false,
     timerInterval,
     $timer,
     minHeight = 600,
+    gameSettings,
+    bombMode = false,
     $flagsCounter;
   
   function resizeSquares(w){
@@ -22,14 +26,51 @@ define([
     });
   }
 
-  function bindSquaresEvents(lcCallback, rcCallback){
+  function bindSquaresEvents(lcCallback, rcCallback, bombDrop){
     $('.square').on('mouseup', function (e){
+      if (bombMode){
+        bombDrop(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
+        consumeBomb();
+        return;
+      }
       if (e.button === 0 || e.button === 1){      
         lcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
       } else {
         rcCallback(parseInt( $(this).attr('data-x')), parseInt( $(this).attr('data-y')));
       }
     });
+  }
+
+  function consumeBomb(){
+    bombMode = false;
+    gameSettings.bombsLeft--;
+    unsetBombTargeting();
+    $('body').removeClass('bomb-mode');
+    if (gameSettings.bombsLeft === 0){
+      $('#bomb').addClass('disabled');
+    }
+  }
+
+  function setBombTargeting(size){
+    $('.square').on('mouseleave.bombTargeting', function (){$(this).removeClass('hover-hover');});
+    $('.square').on('mouseenter.bombTargeting', function (){
+      var 
+        x = parseInt($(this).attr('data-x')),
+        y = parseInt($(this).attr('data-y')),
+        d = gameSettings.getBombTargetingSize(),
+        i, j, ii = x - d, li = x + d, ij = y - d, lj = y + d;
+      $('.square').removeClass('bomb-hover');
+      for (i = ii; i <= li; i++){
+        for (j = ij; j <= lj; j++){
+          $('#s_{0}_{1}'.format(i, j)).addClass('bomb-hover');
+        }
+      }
+    });
+  }
+
+  function unsetBombTargeting(){
+    $('.square').off('mouseleave.bombTargeting mouseenter.bombTargeting');
+    $('.square').removeClass('bomb-hover');
   }
 
   return {
@@ -44,6 +85,39 @@ define([
       $(window).on('resize.controls', function (){
         $('body')[$(window).width() < 700 ? 'addClass' : 'removeClass']('compact');
       }).trigger('resize.controls');
+
+      $('#mute').on('click', function (e){
+        e.preventDefault();
+        if ($(this).hasClass('muted')){
+          $(this).removeClass('muted');
+          fx.unmute();
+          cookies.write('m', '0');
+        } else {
+          $(this).addClass('muted');
+          fx.mute();
+          cookies.write('m', '1');
+        }
+      });
+
+      var muted = cookies.read('m');
+      if (muted === '1'){
+        $('#mute').trigger('click');
+      }
+
+      $('#bomb').on('click', function (e){
+        e.preventDefault();
+        if (gameSettings.bombsLeft > 0){
+          if (bombMode){
+            $('body').removeClass('bomb-mode');
+            unsetBombTargeting();
+            bombMode = false;
+          } else {
+            $('body').addClass('bomb-mode');
+            setBombTargeting();
+            bombMode = true;
+          }
+        }
+      });
     },
 
     startTimer: function (){
@@ -81,9 +155,10 @@ define([
       }, 0);
     },
 
-    field: function (x, y, rcCallback, lcCallback){
-
+    field: function (settings, rcCallback, lcCallback, bombDrop){
+      gameSettings = settings;
       var 
+        x = settings.width, y = settings.height,
         h = $(window).height() > minHeight ? $(window).height() : minHeight,
         w = Math.floor((h - 90) / y),
         i, j, cell, $field = $('<div id="field"></div>');
@@ -117,7 +192,8 @@ define([
         }
       }
       resizeSquares(w);
-      bindSquaresEvents(lcCallback, rcCallback);
+      bindSquaresEvents(lcCallback, rcCallback, bombDrop);
+      $('#bomb').removeClass('disabled');
       $('#left-controls, #right-controls').show();
     },
 

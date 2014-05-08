@@ -11,7 +11,7 @@
       <link href="/favicon.ico" rel="icon" type="image/x-icon" />
       
       <% if (production){ %>
-        <link href="/all.css" rel="stylesheet" type="text/css" />
+        <link href="/all-2.css" rel="stylesheet" type="text/css" />
       <% } else {%>
         <link href="/styles/opensans/stylesheet.css" rel="stylesheet" type="text/css" />
         <link href="/styles/armaliterifle/stylesheet.css" rel="stylesheet" type="text/css" />
@@ -41,6 +41,8 @@
           <a href="#" class="button" data-function="pause">Pause</a>
         </div>
         <div id="right-controls" style="display:none">
+          <a href="#" class="counter" id="bomb"></a>
+          <a href="#" class="counter" id="mute"></a>
           <span class="counter" id="flags-counter">0</span>
           <span class="counter" id="timer">0:00:00</span>
         </div>
@@ -50,9 +52,9 @@
         <a href="#" data-function="start">- Click here to start -</a>
       </div>
       <div id="field-wrapper"></div>
-      <footer><small>Developed by Stéfano Zanata @ <a href="http://szanata.com" target="_blank">szanata.com</a> 2014 v1.1</small></footer>
+      <footer><small>Developed by Stéfano Zanata @ <a href="http://szanata.com" target="_blank">szanata.com</a> 2014 v1.2</small></footer>
       <% if (production){ %>
-      <script type="text/javascript" src="scripts/main-build.js"></script>
+      <script type="text/javascript" src="scripts/main-build-2.js"></script>
       <% } else { %>
       <script type="text/javascript" data-main="scripts/mines/main.js" src="/scripts/require.js"></script>
       <% } %>

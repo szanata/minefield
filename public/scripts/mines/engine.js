@@ -212,6 +212,40 @@ define([
     }).length);
   }
 
+  function bombDrop(x, y){
+    result.clicks++;
+    var 
+      d = settings.getBombTargetingSize(), s,
+      i, j, ii = x - d, li = x + d, ij = y - d, lj = y + d;
+    fx.play(model.SoundType.EXPLOSION);
+    for (i = ii; i <= li; i++){
+      for (j = ij; j <= lj; j++){
+        s = getSquare(i, j);
+        if (s.isContentMine()){
+          s.state = model.State.MARKED;
+          drawer.markedState(i, j);
+        } else {
+          s.state = model.State.DONE;
+          drawer.doneState(i, j, s.content);
+          if (s.content === model.Content.NOTHING){
+            (function (_x, _y){
+              setTimeout(function (){
+                emptyPropagation(_x, _y);
+              }, 5);
+            }(i, j));
+          }
+        }
+        // win by revealing all      
+        if (squares.filter(function (s){return s.isStateDone();}).length === emptySquaresCount){
+          endGame(model.ResultState.WIN);
+        }
+      }
+    }
+    drawer.updateFlagsCount(settings.minesTotal - squares.filter(function (s){
+      return s.isStateMarked();
+    }).length);
+  }
+
   return {
     
     start: function (_settings, initType, _endGameCallback){
@@ -227,7 +261,7 @@ define([
       }
       timer.reset();
       timer.start();
-      drawer.field(settings.width, settings.height, rClick, lClick);
+      drawer.field(settings, rClick, lClick, bombDrop);
       drawer.startTimer();
       drawer.updateFlagsCount(settings.minesTotal);
       emptySquaresCount = (settings.width * settings.height) - settings.minesTotal;

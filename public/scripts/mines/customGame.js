@@ -2,8 +2,9 @@ define([
   'jquery',
   'partials',
   '../Lollipop.min', 
-  'model']
-, function ($, partials, Lollipop, model){
+  'model',
+  'cookies']
+, function ($, partials, Lollipop, model, cookies){
 
   return {
     start: function (callback, newGame){
@@ -11,9 +12,18 @@ define([
       var 
         $this = partials.customGame,
         $fieldWidth = $this.find('[name="field-width"]'),
-        $minesAmount = $this.find('[name="mines-amount"]');
+        $minesAmount = $this.find('[name="mines-amount"]'),
+        fieldWidthPrevValue = cookies.read('cg-fw'),
+        minesAmountPrevValue = cookies.read('cg-ma');
       
       $this.find('.error').hide();
+
+      if (minesAmountPrevValue !== null){
+        $minesAmount.val(minesAmountPrevValue);
+      }
+      if (fieldWidthPrevValue !== null){
+        $fieldWidth.val(fieldWidthPrevValue);
+      }
 
       Lollipop.open({
         content:$this,
@@ -37,6 +47,9 @@ define([
               $minesAmount.parents('.custom-game-content-field-wrapper').find('.error').text('Deve ser um número entre 5 e 25').show();
               return;
             }
+
+            cookies.write('cg-fw', fieldWidth);
+            cookies.write('cg-ma', minesAmount);
 
             var mines = Math.ceil((parseInt(fieldWidth) * parseInt(fieldWidth)) * (parseInt(minesAmount) / 100));
             callback(new model.GameSettings(fieldWidth, fieldWidth, mines));

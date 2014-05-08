@@ -69,7 +69,14 @@ define([], function (){
 		this.width = width || 0;
 		this.height = height || 0;
 		this.minesTotal = minesTotal || 0;
+		this.bombsLeft = 1;
 	};
+	GameSettings.prototype.getBombTargetingSize = function (){
+		return Math.floor(this.width / 10);
+	}
+	GameSettings.prototype.resetBombsLeft = function (){
+		this.bombsLeft = 1;
+	}
 	GameSettings.prototype.constructor = GameSettings;
 	model.GameSettings = GameSettings;
 

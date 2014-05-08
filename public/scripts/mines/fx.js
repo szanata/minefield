@@ -1,9 +1,11 @@
 define(['model'], function (model){
+  
+  var volume = .5;
 
   function createAudioElement(file){
     var audio = new Audio();
     audio.src = file;
-    audio.volume = .5;
+    audio.volume = volume;
     return audio;
   }
 
@@ -15,5 +17,13 @@ define(['model'], function (model){
         createAudioElement('fx/explosion.wav').play();  
       }
     },
+
+    mute: function (){
+      volume = 0;
+    },
+
+    unmute: function (){
+      volume = .5;
+    }
   }
 });

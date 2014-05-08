@@ -8,11 +8,6 @@ define([
   'customGame']
 , function ($, partials, Lollipop, model, customGame){
   
-  var 
-    kidsPlaySettings = new model.GameSettings(10, 10, 10),
-    mediumSettings = new model.GameSettings(15, 15, 25),
-    insaneSettings = new model.GameSettings(20, 20, 60);
-
   return {
     start: function (callback){
       var _this = this;
@@ -30,13 +25,13 @@ define([
             Lollipop.close();
             switch (difficulty){
               case model.GameDifficulty.INSANE:
-                callback(insaneSettings);
+                callback(new model.GameSettings(20, 20, 60));
                 break;
               case model.GameDifficulty.MEDIUM:
-                callback(mediumSettings);
+                callback(new model.GameSettings(15, 15, 25));
                 break;
               case model.GameDifficulty.KIDS_PLAY:
-                callback(kidsPlaySettings);
+                callback(new model.GameSettings(10, 10, 10));
                 break;
               case model.GameDifficulty.CUSTOM:
                 customGame.start(callback, _this);

@@ -1,7 +1,7 @@
 ({
   baseUrl: './mines',
   name: 'main',
-  out: 'main-build.js',
+  out: 'main-build-2.js',
   include:[
     '../require'
   ],

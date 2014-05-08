@@ -14,6 +14,10 @@ body{
   position: absolute;
   background:url('/images/bg.png') repeat;
 }
+body.bomb-mode,
+body.bomb-mode .square{
+  cursor:url('/images/bomb-hover.png') 10 10, pointer!important;
+}
 #bg-wrapper{
   position: absolute;
   z-index: -1;
@@ -46,7 +50,6 @@ p{margin:0 0 10px;}
   color:#fff;
   display: inline-block;
 }
-.compact #logo{display: block;}
 #left-controls{display: inline-block;}
 #right-controls{float:right;}
 .counter{
@@ -57,9 +60,23 @@ p{margin:0 0 10px;}
   font-size:22px;
   color:#fff;
   line-height: 50px;
+  height: 50px;
   display: inline-block;
   margin:0 10px;
+  vertical-align: top;
 }
+#bomb{
+  background-image: url('/images/bomb.svg');
+  background-size: auto 45%;
+  background-position: center;
+}
+#bomb.disabled{background-image: url('/images/bomb-disabled.png');}
+#mute{
+  background-image: url('/images/unmuted.svg');
+  background-size: auto 45%;
+  background-position: center;
+}
+#mute.muted{background-image: url('/images/muted.svg');}
 #timer{
   background-image: url('/images/time.svg');
   background-size: auto 35%;
@@ -158,7 +175,8 @@ p{margin:0 0 10px;}
 }
 .square:not(.mine):not(.done){cursor: pointer;}
 .square:not(.mine):not(.done):not(.doubt):not(.marked){}
-#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked):hover:after{
+#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked):hover:after,
+#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked).bomb-hover:after{
   border:1px solid #E37900;
   content:'';
   top:-1px;

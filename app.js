@@ -9,13 +9,13 @@ var
 
 var assetManagerGroups = {
   'css': {
-    'route': /\/all\.css/,
+    'route': /\/all\-2\.css/,
     'path': __dirname + '/public/styles/',
     'dataType': 'css',
     'files': [ 
       'opensans/stylesheet.css', 
       'armaliterifle/stylesheet.css',
-      'style.css' 
+      'style.css'
     ]
   }/*,
   'js': {

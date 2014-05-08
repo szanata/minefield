@@ -64,6 +64,7 @@ define('main', [
   }
 
   function restart(){
+    lastGameSettings.resetBombsLeft();
     startGame(lastGameSettings, model.GameInit.RESTART);
   }
 
@@ -91,5 +92,6 @@ define('main', [
       $('#start-wrapper').remove();
       newGame();
     });
+
   });
 });
