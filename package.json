@@ -1,21 +1,26 @@
 {
   "name": "mines",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Plain simple minefield game",
   "main": "app.js",
   "dependencies": {
-    "express": "3.x",
-    "ejs": "*",
-    "connect-assetmanager": "*",
-    "mime": "*"
+    "requirejs": "latest",
+    "express": "4.x",
+    "compression": "latest",
+    "body-parser": "^1.15.2",
+    "connect": "3.4.1",
+    "connect-assets": "5.2.1",
+    "ejs": "latest",
+    "stylus": "0.54.5",
+    "mime": "latest"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "node": "8.6.0",
+    "npm": "5.4.0"
   },
-  "repository":{ 
-    "type" : "git",
-    "url" : "https://github.com/madeinstefano/new-site.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madeinstefano/minefield.git"
   },
   "author": "Stéfano Zanata",
   "license": "BSD"

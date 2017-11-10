@@ -1,58 +1,46 @@
-﻿
-var 
-  express = require('express'),
-  app = express(),
-  assetManager = require('connect-assetmanager'),
-  mime = require('mime'),
-  oneYear = 31557600000,
-  production = !!process.env.PORT;
+﻿const express = require( 'express' );
+const bodyParser = require( 'body-parser' );
+const compress = require( 'compression' );
+const connect = require( 'connect' );
+const assets = require( 'connect-assets' );
+const mime = require( 'mime' );
+const execSync = require('child_process').execSync;
 
-var assetManagerGroups = {
-  'css': {
-    'route': /\/all\-2\.css/,
-    'path': __dirname + '/public/styles/',
-    'dataType': 'css',
-    'files': [ 
-      'opensans/stylesheet.css', 
-      'armaliterifle/stylesheet.css',
-      'style.css'
-    ]
-  }/*,
-  'js': {
-    'route': /\/static\/script\.js/,
-    'path': __dirname + '/public/scripts/',
-    'dataType': 'javascript',
-    'files': [],
-    'stale':!!process.env.PORT,
-    'debug':!process.env.PORT
-  },*/
-};
+const app = express();
+const oneYear = 31557600000;
+const production = !!process.env.PORT;
 
-app.configure(function (){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  // minify + combine
-  app.use(assetManager(assetManagerGroups)); 
-  // compress + cache
-  app.use(express.compress());
-  app.use(express.static(__dirname + '/public', {maxAge: oneYear}));
-  // body parser
-  app.use(express.bodyParser());
-  // routes
-  app.use(app.router);
-  //mime types
-  mime.define({
-    'application/octet-stream': ['ttf'],
-    'image/svg+xml': ['svg'],
-    'application/vnd.ms-fontobject': ['eot'],
-    'application/x-font-woff': ['woff'],
-    'audio/wav': ['wav']
-  });
-});
+
+app.set( 'views', `${__dirname}/views` );
+app.set( 'view engine', 'ejs' );
+
+app.use( compress() );
+
+app.use( '/static', express.static( 'public' ) );
+
+execSync('node node_modules/requirejs/bin/r.js -o assets/scripts/build.js');
+
+app.use( assets( {
+  paths: [ 'public' ],
+  precompile: [ '*.x' ],
+  build: false,
+  bundle: !production,
+  compress: !production,
+  gzip: true,
+  fingerprinting: !production
+} ) );
+
+//mime types
+// mime.define({
+//   'application/octet-stream': [ 'ttf' ],
+//   'image/svg+xml': [ 'svg' ],
+//   'application/vnd.ms-fontobject': [ 'eot' ],
+//   'application/x-font-woff': [ 'woff ']
+// });
 
 // routes
-app.get('/', function (req, res){
-  res.render('index', {production: production});
+app.get( '/', function ( req, res ) {
+  res.render( 'index', { production } );
 });
 
-app.listen(process.env.PORT || 3456);
+app.listen( process.env.PORT || 3456 );
