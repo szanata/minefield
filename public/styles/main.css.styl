@@ -41,56 +41,85 @@ p { margin: 0 0 12px; }
 }
 
 #top-bar {
-  height: 50px;
+  height: 48px;
   font-size: 0;
   position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
+
 #logo {
-  font-family: 'ArmaliteRifle';
-  font-weight: 400;
-  line-height: 50px;
-  height: 50px;
-  font-size: 24px;
-  margin: 0 10px;
-  letter-spacing: 2px;
-  color:#fff;
-  display: inline-block;
+  align-self: flex-start;
+  flex: 1 1 240px;
+  width: 240px;
+  height: 100%;
+  background: url( asset_path( 'images/logo.png') ) no-repeat  center;
+  background-size: auto 40%;
 }
-#left-controls { display: inline-block;}
-#right-controls { float:right;}
-.counter {
-  background-position: center left;
-  background-repeat: no-repeat;
-  padding-left: 30px;
-  font-family: monospace;
-  font-size: 22px;
-  color:#fff;
-  line-height: 50px;
-  height: 50px;
-  display: inline-block;
-  margin: 0 10px;
-  vertical-align: top;
+#left-controls {
+  flex: 2 1 300px;
+  display: flex;
+  align-items: center;
+  a {
+    display: inline-block;
+    color: #fff;
+    font-size: 1rem;
+    margin-right: 18px;
+    ^[1]:hover {
+      text-decoration: underline;
+    }
+  }
 }
-#bomb {
-  background-image: url( asset_path( 'images/bomb.svg' ) ) ;
-  background-size: auto 45%;
-  background-position: center;
+#right-controls {
+  align-self: flex-end;
+  // flex: 1 1 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  a {
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 30px;
+    margin-right: 18px;
+    height: 100%;
+    ^[1]#bomb {
+      background-image: url( asset_path( 'images/bomb.svg' ) );
+      background-size: auto 45%;
+      ^[2].disabled { background-image: url( asset_path( 'images/bomb-disabled.svg') ); }
+    }
+    ^[1]#mute {
+      background-image: url( asset_path( 'images/unmuted.svg' ) );
+      background-size: auto 58%;
+      ^[2].muted { background-image: url( asset_path( 'images/muted.svg') ); }
+    }
+  }
+
+  span {
+    font-family: monospace;
+    color:#fff;
+    background-position: center left;
+    background-repeat: no-repeat;
+    font-size: 1.3rem;
+    margin: 0 12px;
+    padding-left: 27px;
+
+    ^[1]#timer {
+      background-image: url( asset_path( 'images/time.svg' ) );
+      background-size: auto 70%;
+    }
+    ^[1]#flags-counter {
+      background-image: url( asset_path( 'images/mine-light.svg' ) );
+      background-size: auto 80%;
+    }
+  }
 }
-#bomb.disabled { background-image:  url( asset_path( 'images/bomb-disabled.png') ); }
-#mute {
-  background-image: url( asset_path( 'images/unmuted.svg' ) ) ;
-  background-size: auto 45%;
-  background-position: center;
-}
-#mute.muted { background-image:  url( asset_path( 'images/muted.svg') ); }
-#timer {
-  background-image: url( asset_path( 'images/time.svg' ) ) ;
-  background-size: auto 35%;
-}
-#flags-counter {
-  background-image: url( asset_path( 'images/mine-light.svg' ) ) ;
-  background-size: auto 45%;
-}
+
+
+
 #view-field-title {
   position: absolute;
   top: 0;
@@ -107,24 +136,22 @@ p { margin: 0 0 12px; }
   left: 0;
   height: 100%;
   width: 100%;
-  min-width:600px;
+  min-width: 600px;
   min-height: 400px;
   position: absolute;
   display: table;
   text-align: center;
+  a {
+    display: table-cell;
+    color:#fff;
+    vertical-align: middle;
+    margin: 0 auto;
+    font-weight: bolder;
+    font-size: 40px;
+    animation: 1s cubic-bezier(1.0,0,0,1.0) infinite blinker;
+  }
 }
-#start-wrapper a {
-  display: table-cell;
-  color:#fff;
-  vertical-align: middle;
-  margin: 0 auto;
-  font-weight: bolder;
-  font-size: 40px;
-  animation-name: blinker;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-  animation-duration: 1s;
-}
+
 @-webkit-keyframes blinker {
   from { opacity: 1.0; }
   to { opacity: 0.0; }
@@ -210,7 +237,7 @@ p { margin: 0 0 12px; }
 
   ~/.mine{
     background-color: #FF4A4A;
-    background-image:  url( asset_path( 'images/mine.svg' ) ) ;
+    background-image: url( asset_path( 'images/mine.svg' ) );
   }
   ~/.doubt,
   ~/.marked {
@@ -228,11 +255,11 @@ p { margin: 0 0 12px; }
   }
   ~/.doubt::after {
     background-color: #FFF891;
-    background-image:  url( asset_path( 'images/doubt.svg' ) ) ;
+    background-image: url( asset_path( 'images/doubt.svg' ) );
   }
   ~/.marked::after {
     background-color: #8FFF82;
-    background-image:  url( asset_path( 'images/marked.svg' ) ) ;
+    background-image: url( asset_path( 'images/marked.svg' ) );
   }
 }
 
@@ -319,40 +346,41 @@ footer {
   text-align: right;
 }
 
-.button, button {
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  font-size: 1rem;
-  font-family: OpenSans;
-  font-weight: 400;
-  text-decoration: none;
-  text-transform: uppercase;
-  cursor: pointer;
-  color: #fff;
-  background-color: transparent;
-  padding: 0 15px;
-  border-radius: 6px;
-  border:none;
-  position: relative;
+#lollipop-popup {
+  .button, button {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1rem;
+    font-family: OpenSans;
+    font-weight: 400;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    background-color: transparent;
+    padding: 0 15px;
+    border-radius: 6px;
+    border:none;
+    position: relative;
 
-  ~/:hover::after {
-    position: absolute;
-    border: 1px solid #E37900;
-    content: '';
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background-color: rgba(227, 121, 0, .3);
-    box-shadow: 0 0 6px #e37900;
-  }
+    ^[1]:hover::after {
+      position: absolute;
+      border: 1px solid #E37900;
+      content: '';
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background-color: rgba(227, 121, 0, .3);
+      box-shadow: 0 0 6px #e37900;
+    }
 
-  ~/:not(:last-child) {
-    margin-right: 12px;
+    ^[1]:not(:last-child) {
+      margin-right: 12px;
+    }
   }
 }
-
 
 #lollipop-block-layer {
   background-color:rgba(0,0,0,.7);
