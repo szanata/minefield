@@ -1,15 +1,13 @@
-minefield
-=========
+# minefield
 
-Simple js minefield game
+Simple js minefield game.
 
 Play at: http://minefield.szanata.com
 
 
-Changelog
-----------
+## Changelog
 
-v1.0.0 **initial**:
+### v1.0.0 **initial**:
   - 3 difficulty levels to choose from
   - Auto fit field to window size
   - Pause feature
@@ -23,7 +21,7 @@ v1.0.0 **initial**:
     - Clicks count
   - Final design, with colors, background, textures, images and fonts. Theme: militia.
 
-v1.1.0:
+### v1.1.0:
   - Added: New game button on top menu
   - Added: View board feature.
     - When game is over, players can view the board over the end game popup
@@ -33,5 +31,5 @@ v1.1.0:
   - Fixed: When the window is resized vertically, sometimes the field was breaking and the squares were losing their order
   - Fixed: When user restart the game from a lose, and soon loses again, the explosion sound was not being played
 
-v1.2.0:
+### v1.2.0:
   - Various internals improvements
