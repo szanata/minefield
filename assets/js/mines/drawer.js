@@ -78,9 +78,6 @@ define([
     init: function (){
       $timer = $('#timer');
       $flagsCounter = $('#flags-counter');
-      $(window).on('resize.footer', function (){
-        $('footer').css('position', $(document).height() > $(window).height() ? 'relative' : 'absolute');
-      }).trigger('resize.footer');
 
       $(window).on('resize.controls', function (){
         $('body')[$(window).width() < 700 ? 'addClass' : 'removeClass']('compact');

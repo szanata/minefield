@@ -18,7 +18,7 @@ body.bomb-mode .square{
 }
 * {
   outline:none;
-  font-family: OpenSans;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   appearance: none;
   -webkit-appearance: none;
@@ -171,6 +171,7 @@ p { margin: 0 0 12px; }
 #field-wrapper {
   width: 100%;
   text-align: center;
+  min-height: calc(100% - 100px);
 }
 #field {
   margin: 0 auto;
@@ -317,13 +318,11 @@ p { margin: 0 0 12px; }
 #new-game-options a[data-difficulty="custom"] { background-image: url( asset_path( 'images/custom.svg') ); }
 
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   height: 40px;
   line-height: 40px;
-  color:#fff;
   text-indent: 10px;
+  color: #fff;
 
   a { color:#E37900; }
 }
@@ -354,7 +353,7 @@ footer {
     height: 40px;
     line-height: 40px;
     font-size: 1rem;
-    font-family: OpenSans;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     text-decoration: none;
     text-transform: uppercase;
@@ -390,7 +389,7 @@ footer {
 #lollipop-popup {
   border: 8px solid #666;
   border-radius: 6px;
-  font-family: OpenSans;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   background-color:#1a1a1a;
   color:#f2f2f2;
@@ -400,7 +399,7 @@ footer {
 }
 #lollipop-popup-header {
   padding: 10px;
-  font-family: OpenSans;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 20px;
 }
