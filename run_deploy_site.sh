@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# docker run --rm -t \
-#   -v `pwd`:/app/ \
-#   -w /app/ \
-#     node:11.6-alpine /bin/sh -c "cd frontend && npm install && npm run release"
+docker run --rm -t \
+  -v `pwd`:/app/ \
+  -w /app/ \
+    node:12.14-alpine /bin/sh -c "cd ./project && npm install && npm run release"
 
 docker run --rm -it \
   -e AWS_DEFAULT_REGION=us-east-1 \
