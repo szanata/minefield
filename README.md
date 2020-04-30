@@ -2,7 +2,7 @@
 
 Simple js minefield game.
 
-Play at: http://minefield.szanata.com
+Play at: https://minefield.szanata.com
 
 
 ## Changelog
@@ -33,3 +33,8 @@ Play at: http://minefield.szanata.com
 
 ### v1.2.0:
   - Various internals improvements
+
+### v2.0.0:
+  - Fully rewritten to be 100% frontend app, served by an static file host
+  - Some minor redesign
+  - Removal of the custom game mode and the restart same game option
