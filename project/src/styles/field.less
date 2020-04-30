@@ -1,0 +1,93 @@
+#field {
+  margin: 0 auto;
+  display: inline-block;
+  font-size: 0;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #222, 0 0 3px rgba( 0, 0, 0, .5 );
+  background:
+     url( '../images/mine-transparent.svg' ) no-repeat center,
+     url( '../images/bg.png' ) repeat;
+  background-size: auto 100%, auto;
+}
+
+/*
+ * Style for a single square and its states
+ */
+.square {
+  padding: 0;
+  background-position: center;
+  background-size: auto 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  font-family: arial;
+  display: inline-block;
+  
+  border-top: 1px solid #726a64;
+  border-left: 1px solid #726a64;
+  border-bottom: 1px solid #222;
+  border-right: 1px solid #222;
+  text-align: center;
+
+  &:not(.mine):not(.done) { cursor: pointer; }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-weight: bolder;
+    line-height: inherit;
+    background-size: auto 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &.done{
+    background-color: rgba(25,25,25,1);
+    border: 0;
+
+    &.n_1:after { content: '1'; color: rgb(60, 175, 121); }
+    &.n_2:after { content: '2'; color: rgb(91, 31, 231); }
+    &.n_3:after { content: '3'; color: orange; }
+    &.n_4:after { content: '4'; color: rgb(225, 0, 255); }
+    &.n_5:after { content: '5'; color: rgb(243, 41, 51); }
+    &.n_6:after { content: '6'; color: rgb(145, 15, 145); }
+    &.n_7:after { content: '7'; color: rgb(220, 255, 64); }
+    &.n_8:after { content: '8'; color: rgb(138, 70, 14); }
+
+    &::after {
+      content:'';
+      box-shadow: inset 0 0 0 0.5px rgba(255,255,255,.1);
+    }
+  }
+
+  &.mine{
+    background-color: #FF4A4A;
+    background-image: url( '../images/mine.svg'  );
+  }
+  &.doubt::after,
+  &.marked::after {
+    content: '';
+  }
+  &.doubt::after {
+    background-color: #FFF891;
+    background-image: url( '../images/doubt.svg'  );
+  }
+  &.marked::after {
+    background-color: #8FFF82;
+    background-image: url( '../images/marked.svg'  );
+  }
+}
+
+#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked):hover:after,
+#field:not(.no-hover) .square:not(.mine):not(.done):not(.doubt):not(.marked).bomb-hover:after {
+  border: 1px solid #fff;
+  content:'';
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-color: rgba(255,255,255,.7);
+  box-shadow: 0 0 4px #fff;
+}

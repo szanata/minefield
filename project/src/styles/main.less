@@ -1,0 +1,187 @@
+/*
+* orange: E37900;
+*/
+@import (css) url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+
+body {
+  margin: 0;
+  min-width:600px;
+  min-height: 480px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-image: url( '../images/mine-bg.svg' ), url( '../images/bg.png' );
+  background-repeat: no-repeat, repeat;
+  background-position: right -40% top 200px, center;
+  background-size: 60%, auto;
+  overflow: hidden;
+}
+body.bomb-mode,
+body.bomb-mode .square{
+  cursor: url( '../images/bomb-hover.png' ) 10 10, pointer!important;
+}
+// firefox resets
+button::-moz-focus-inner {
+  border: 0;
+}
+input::-moz-focus-inner {
+  outline: transparent;
+}
+* {
+  outline: transparent;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 400;
+  box-sizing:border-box;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color:#1a1a1a;
+}
+
+#top-bar {
+  height: 48px;
+  flex-shrink: 0;
+  font-size: 0;
+  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  #logo {
+    width: 240px;
+    height: 100%;
+    background: url( '../images/logo.png' ) no-repeat  center;
+    background-size: auto 40%;
+  }
+
+  #controls {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    a {
+      border: 1px solid rgba(0,0,0,0.2);
+      border-top: 1px solid rgba(255,255,255,0.3);
+      border-left: 1px solid rgba(255,255,255,0.3);
+      background-color: rgba(255,255,255,0.2);
+      box-shadow: 0 0 2px 0 rgba( 0, 0, 0, .3);
+      margin-right: 18px;
+      border-radius: 6px;
+    }
+    a.text {
+      padding: 0 9px;
+      color: #fff;
+      font-size: 0.9rem;
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+  
+    a.icon {
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 30px;
+      height: 30px;
+
+      &#bomb {
+        background-image: url( '../images/bomb.svg'  );
+        background-size: auto 45%;
+        &.disabled { background-image: url( '../images/bomb-disabled.svg' ); }
+      }
+      &#mute {
+        background-image: url( '../images/unmuted.svg'  );
+        background-size: auto 58%;
+        &.muted { background-image: url( '../images/muted.svg' ); }
+      }
+    }
+  
+    span {
+      font-family: monospace;
+      color:#fff;
+      padding: 0 6px 0 30px;
+      background-position: center left 6px;
+      background-repeat: no-repeat;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      height: 30px;
+      margin-right: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 0 2px 0 rgba( 0, 0, 0, .4);
+      background-color: rgba(0,0,0,.3);
+  
+      &#timer {
+        background-image: url( '../images/time.svg'  );
+        background-size: auto 60%;
+      }
+      &#flags {
+        background-image: url( '../images/mine-light.svg'  );
+        background-size: auto 70%;
+      }
+    }
+  }
+}
+
+#content {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#start-wrapper {
+  a {
+    color:#fff;
+    font-weight: bolder;
+    font-size: 40px;
+    animation: 1s cubic-bezier(1.0,0,0,1.0) infinite blinker;
+  }
+}
+
+@-webkit-keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+@-moz-keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+@keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+
+footer {
+  flex-shrink: 0;
+  height: 42px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  a, span {
+    margin-right: 18px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,.7);
+    b {
+      font-weight: 700;
+    }
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
