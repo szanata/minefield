@@ -7,13 +7,18 @@ Play at: https://minefield.szanata.com
 
 ## Changelog
 
-#### v1.2.0:
-  - Various internals improvements
+#### v2.1.0:
+  - Fixed a condition where marking all mines would not trigger the end of the game
+  - Finishing the game reveal all mines
+  - Internal improvements
 
 #### v2.0.0:
   - Fully rewritten to be 100% frontend app, served by an static file host. Using latest js features
-  - Some minor UI redesign
+  - Some UI redesign
   - Removal of the custom game mode and the restart same game option
+
+#### v1.2.0:
+  - Various internals improvements
 
 ### v1.1.0:
   - Added: New game button on top menu
