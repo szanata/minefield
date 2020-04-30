@@ -19,8 +19,8 @@ html
         #logo
         
         #controls(style="display:none")
-          a.text(href="#" data-function="new-game") New Game
-          a.text(href="#" data-function="pause") Pause
+          a#new-game.text(href="#") New Game
+          a#pause.text(href="#") Pause
           a#bomb.icon(href="#")
           a#mute.icon(href="#")
           span#flags 0
@@ -30,7 +30,7 @@ html
 
       #content
         #start-wrapper
-          a(href="#" data-function="start") - Click here to start -
+          a#start(href="#") - Click here to start -
 
       footer
         span

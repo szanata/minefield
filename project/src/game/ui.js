@@ -11,34 +11,39 @@ class UI {
     this.bombMode = false;
     this.bombsLeft = 0;
     this.bombSize = 0;
+    this.mute = false;
 
     this.$timer = $( '#timer' );
     this.$flags = $( '#flags' );
+    this.$muteBtn = $( '#mute' );
+    this.$bombBtn = $( '#bomb' );
+    this.$pauseBtn = $( '#pause' );
+    this.$newGameBtn = $( '#new-game' );
+    this.$startGame = $( '#start' );
   }
 
-  init() {
-    $( window ).on( 'resize.controls', function () {
-      $( 'body' )[$( window ).width() < 700 ? 'addClass' : 'removeClass']( 'compact' );
-    } ).trigger( 'resize.controls' );
-
-    $( '#mute' ).on( 'click', function ( e ) {
-      e.preventDefault();
-      if ( $( this ).hasClass( 'muted' ) ) {
-        $( this ).removeClass( 'muted' );
-        FX.unmute();
-        Storage.set( 'mute', '0' );
-      } else {
-        $( this ).addClass( 'muted' );
-        FX.mute();
-        Storage.set( 'mute', '1' );
-      }
-    } );
-
+  init( { newGameCallback } ) {
     if ( Storage.get( 'mute' ) === '1' ) {
-      $( '#mute' ).trigger( 'click' );
+      this._toggleMute();
     }
 
-    $( '#bomb' ).on( 'click', e => {
+    this.$newGameBtn.on( 'click', e => {
+      e.preventDefault();
+      newGameCallback();
+    } );
+
+    this.$startGame.on( 'click', e => {
+      e.preventDefault();
+      $( '#start-wrapper' ).remove();
+      newGameCallback();
+    } );
+
+    this.$muteBtn.on( 'click', e => {
+      e.preventDefault();
+      this._toggleMute();
+    } );
+
+    this.$bombBtn.on( 'click', e => {
       e.preventDefault();
       if ( !this.active ) { return; }
       if ( this.bombsLeft === 0 ) { return; }
@@ -59,14 +64,57 @@ class UI {
       if ( !this.active ) { return; }
       if ( e.keyCode === 32 ) { //space
         e.preventDefault();
-        this[this.paused ? 'resumeGame' : 'pauseGame']();
+        this._togglePause();
       }
     } );
-    $( '[data-function="pause"]' ).on( 'click', e => {
+    this.$pauseBtn.on( 'click', e => {
       e.preventDefault();
       if ( !this.active ) { return; }
-      this[this.paused ? 'resumeGame' : 'pauseGame']();
+      this._togglePause();
     } );
+  }
+
+  _togglePause() {
+    if ( this.paused ) {
+      this.paused = false;
+      this.engine.resumeGame();
+
+      Lollipop.close( true );
+      $( '#field' ).show();
+    } else {
+      this.paused = true;
+      this.engine.pauseGame();
+
+      $( '#field' ).hide();
+      Lollipop.open( {
+        showTitle: false,
+        animate: true,
+        minHeight: 50,
+        content: '<h1>Waiting for you :)</h1><p><b>Pro tip</b>: use <i>spacebar</i> to pause/unpause game.</p>',
+        showCancelButton: false,
+        buttons: [ {
+          title:'Resume',
+          click() {
+            this._togglePause();
+          }
+        } ]
+      } );
+
+    }
+  }
+
+  _toggleMute( ) {
+    if ( this.mute ) {
+      this.$muteBtn.removeClass( 'muted' );
+      FX.unmute();
+      Storage.set( 'mute', '0' );
+      this.mute = false;
+    } else {
+      this.$muteBtn.addClass( 'muted' );
+      FX.mute();
+      Storage.set( 'mute', '1' );
+      this.mute = true;
+    }
   }
 
   _resizeSquares( w ) {
@@ -197,12 +245,14 @@ class UI {
     $( '#controls' ).show();
   }
 
-  doneState( x, y, c ) {
+  openSquare( x, y, c, silent = false ) {
     const s = `#s_${x}_${y}`;
     $( s ).removeClass( 'doubt marked' );
     if ( c === Content.MINE ) {
       $( s ).addClass( 'mine' );
-      FX.playExplosion();
+      if ( !silent ) {
+        FX.playExplosion();
+      }
     } else if ( c === Content.NOTHING ) {
       $( s ).addClass( 'done' );
     } else if ( c > 0 ) {
@@ -210,15 +260,15 @@ class UI {
     }
   }
 
-  markedState( x, y ) {
+  markSquare( x, y ) {
     $( `#s_${x}_${y}` ).removeClass( 'doubt' ).addClass( 'marked' );
   }
 
-  doubtState( x, y ) {
+  setDoubtSquare( x, y ) {
     $( `#s_${x}_${y}` ).removeClass( 'marked' ).addClass( 'doubt' );
   }
 
-  readyState( x, y ) {
+  setPristineSquare( x, y ) {
     $( `#s_${x}_${y}` ).removeClass( 'marked doubt' );
   }
 
@@ -226,49 +276,6 @@ class UI {
     this.active = false;
     $( '.square' ).unbind( 'mouseup' );
     $( window ).unbind( 'resize.field' );
-  }
-
-  openAllMines( minesToOpen ) {
-    const amount = minesToOpen.length;
-    const _this = this;
-
-    let nextMine = 0;
-
-    const interval = setInterval( function () {
-      if ( nextMine === amount ) {
-        clearInterval( interval );
-      } else {
-        _this.doneState( minesToOpen[nextMine].x, minesToOpen[nextMine].y, Content.MINE );
-        nextMine++;
-      }
-    }, 10 );
-  }
-
-  pauseGame() {
-    const _this = this;
-    this.paused = true;
-    this.engine.pauseGame();
-    $( '#field' ).hide();
-    Lollipop.open( {
-      showTitle: false,
-      animate: true,
-      minHeight: 50,
-      content: '<h1>Waiting for you :)</h1><p><b>Pro tip</b>: use <i>spacebar</i> to pause/unpause game.</p>',
-      showCancelButton: false,
-      buttons: [ {
-        title:'Resume',
-        click() {
-          _this.resumeGame();
-        }
-      } ]
-    } );
-  }
-
-  resumeGame() {
-    this.paused = false;
-    this.engine.resumeGame();
-    Lollipop.close( true );
-    $( '#field' ).show();
   }
 }
 

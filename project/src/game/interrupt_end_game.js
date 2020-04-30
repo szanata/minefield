@@ -14,7 +14,7 @@ const createEndGame = () =>
           $( '<td><b>Time</b></td><td data-value="time"></td>' )
         ),
         $( '<tr>' ).append(
-          $( '<td><b>Squares Revealed<b></td><td data-value="squares-revealed"></td>' )
+          $( '<td><b>Open Squares<b></td><td data-value="open-squares"></td>' )
         ),
         $( '<tr>' ).append(
           $( '<td><b>Mines Left<b></td><td data-value="mines-left"></td>' )
@@ -32,15 +32,15 @@ export default async result => {
 
     $this.find( result.isWin ? '#lose-badge' : '#win-badge' ).hide();
 
-    const { squaresRevealed, squaresRevealedPercent, clicks, formattedTime, minesLeft } = result;
-    $this.find( '[data-value="squares-revealed"]' ).text( `${squaresRevealed} (${Math.round( squaresRevealedPercent * 100 ) / 100}%)` );
+    const { openSquares, openSquaresPercent, clicks, formattedTime, minesLeft } = result;
+    $this.find( '[data-value="open-squares"]' ).text( `${openSquares} (${Math.round( openSquaresPercent * 100 ) / 100}%)` );
     $this.find( '[data-value="clicks"]' ).text( clicks );
     $this.find( '[data-value="time"]' ).text( formattedTime );
     $this.find( '[data-value="mines-left"]' ).text( minesLeft );
 
     Lollipop.open( {
       content:$this,
-      title:'Game over',
+      showHeader: false,
       showCancelButton: false,
       maxHeight:'auto',
       height:'auto',

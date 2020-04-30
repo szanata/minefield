@@ -36,16 +36,7 @@ $( function () {
     animateOnClose:false
   } );
 
-  UI.init();
-
-  $( '[data-function="new-game"]' ).on( 'click', function ( e ) {
-    e.preventDefault();
-    startGame();
-  } );
-
-  $( '[data-function="start"]' ).on( 'click', function ( e ) {
-    e.preventDefault();
-    $( '#start-wrapper' ).remove();
-    startGame();
+  UI.init( {
+    newGameCallback: startGame
   } );
 } );

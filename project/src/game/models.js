@@ -32,8 +32,8 @@ class GameSettings {
 class Result {
   constructor() {
     this.state = null;
-    this.squaresRevealed = 0;
-    this.squaresRevealedPercent = 0;
+    this.openSquares = 0;
+    this.openSquaresPercent = 0;
     this.minesLeft = 0;
     this.formattedTime = null;
     this.clicks = 0;

@@ -11,7 +11,6 @@ class Engine {
     this.squares = [];
 
     this.endGameCallback = endGameCallback;
-    this.revealedSquaresCount = 0;
 
     Timer.reset();
     Timer.start();
@@ -98,21 +97,17 @@ class Engine {
    * reveal the mines to player, used on lose
    */
   revealMines() {
-    const squaresToReveal = [];
-    for ( const square of this.squares ) {
-      if ( square.isContentMine && square.isStateReady ) {
-        square.state = State.DONE;
-        squaresToReveal.push( new Square( square.i, square.j ) );
-      }
-    }
-    UI.openAllMines( squaresToReveal );
+    this.squares.filter( s => s.isContentMine && s.isStateReady ).forEach( s => {
+      s.state = State.DONE;
+      UI.openSquare( s.x, s.y, s.content, true );
+    } );
   }
 
   /**
   * tests whether win conditions were achieved
   */
   testWin() {
-    const eachMineMarked = this.squares.every( s => s.isContentMine && s.isStateMarked );
+    const eachMineMarked = this.squares.filter( s => s.isContentMine ).every( s => s.isStateMarked );
     const allRevelead = this.squares.filter( s => s.isStateDone ).length === this.emptySquaresCount;
     if ( eachMineMarked || allRevelead ) {
       this.endGame( ResultState.WIN );
@@ -129,22 +124,12 @@ class Engine {
       const square = this.getSquare( i, j );
       if ( square && square.isStateReady && !square.isContentMine ) {
         square.state = State.DONE;
-        UI.doneState( i, j, square.content );
+        UI.openSquare( i, j, square.content );
         if ( square.isEmpty ) {
           this.emptyPropagation( i, j );
         }
       }
     } );
-  }
-
-  getReveleadAmount() {
-    return this.squares.filter( s =>
-      ( s.isStateDone && !s.isContentMine ) || ( s.isContentMine && s.isStateMarked )
-    ).length;
-  }
-
-  getMinesLeftAmount() {
-    return this.squares.filter( s => !s.isStateMarked && s.content === Content.MINE ).length;
   }
 
   /**
@@ -153,13 +138,16 @@ class Engine {
   endGame( state ) {
     clearInterval( this.timerInterval );
     Timer.stop();
-    this.result.squaresRevealed = this.getReveleadAmount();
-    this.result.squaresRevealedPercent = this.result.squaresRevealed / ( this.settings.width * this.settings.height ) * 100;
-    this.result.minesLeft = this.getMinesLeftAmount();
+    const openSquares = this.squares.filter( s => s.isStateDone ).length;
+    const boardSize = this.settings.width * this.settings.height;
+    this.result.openSquares = openSquares;
+    this.result.openSquaresPercent = ( openSquares / ( boardSize - this.settings.minesTotal ) ) * 100;
+    this.result.minesLeft = this.squares.filter( s => !s.isStateMarked && s.content === Content.MINE ).length;
     this.result.state = state;
     this.result.formattedTime = Timer.format();
     Timer.reset();
     UI.endGame();
+    this.revealMines();
     this.endGameCallback( this.result );
   }
 
@@ -170,7 +158,7 @@ class Engine {
 
 
     s.state = State.DONE;
-    UI.doneState( x, y, s.content );
+    UI.openSquare( x, y, s.content );
     if ( s.isContentMine ) {
       this.endGame( ResultState.LOSE );
       return;
@@ -187,18 +175,18 @@ class Engine {
     const s = this.getSquare( x, y );
     if ( s.isStateReady ) {
       s.state = State.MARKED;
-      UI.markedState( x, y );
+      UI.markSquare( x, y );
       this.testWin();
     } else if ( s.isStateMarked ) {
       s.state = State.DOUBT;
-      UI.doubtState( x, y );
+      UI.setDoubtSquare( x, y );
     } else if ( s.isStateDoubt ) {
       s.state = State.READY;
-      UI.readyState( x, y );
+      UI.setPristineSquare( x, y );
     }
 
-    const markedLength = this.squares.filter( s => s.isStateMarked ).length;
-    UI.updateFlagsCount( this.settings.minesTotal - markedLength );
+    const markedCount = this.squares.filter( s => s.isStateMarked ).length;
+    UI.updateFlagsCount( this.settings.minesTotal - markedCount );
   }
 
   dropBomb( x, y ) {
@@ -207,12 +195,13 @@ class Engine {
 
     cartesianMap( x - s, x + s + 1, y - s, y + s + 1, ( i, j ) => {
       const s = this.getSquare( i, j );
+      if ( !s ) { return; }
       if ( s.isContentMine ) {
         s.state = State.MARKED;
-        UI.markedState( i, j );
+        UI.markSquare( i, j );
       } else {
         s.state = State.DONE;
-        UI.doneState( i, j, s.content );
+        UI.openSquare( i, j, s.content );
         if ( s.content === Content.NOTHING ) {
           this.emptyPropagation( i, j );
         }
@@ -221,8 +210,8 @@ class Engine {
 
     this.testWin();
 
-    const markedLength = this.squares.filter( s => s.isStateMarked ).length;
-    UI.updateFlagsCount( this.settings.minesTotal - markedLength );
+    const markedCount = this.squares.filter( s => s.isStateMarked ).length;
+    UI.updateFlagsCount( this.settings.minesTotal - markedCount );
   }
 }
 
