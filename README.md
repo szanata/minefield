@@ -7,6 +7,10 @@ Play at: https://minefield.szanata.com
 
 ## Changelog
 
+#### v2.1.1:
+  - Fixed issue that allow users to win by marking all squares
+  - Fixed event being propagated after winning action (last click)
+
 #### v2.1.0:
   - Fixed a condition where marking all mines would not trigger the end of the game
   - Finishing the game reveal all mines

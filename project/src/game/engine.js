@@ -108,8 +108,9 @@ class Engine {
   */
   testWin() {
     const eachMineMarked = this.squares.filter( s => s.isContentMine ).every( s => s.isStateMarked );
+    const onlyMinesMarked = this.squares.filter( s => s.isStateMarked ).length === this.settings.minesTotal;
     const allRevelead = this.squares.filter( s => s.isStateDone ).length === this.emptySquaresCount;
-    if ( eachMineMarked || allRevelead ) {
+    if ( ( eachMineMarked && onlyMinesMarked ) || allRevelead ) {
       this.endGame( ResultState.WIN );
     }
   }

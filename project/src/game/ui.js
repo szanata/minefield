@@ -229,6 +229,8 @@ class UI {
     // bind actions
     $( '.square' ).on( 'mouseup', function ( e ) {
       FX.playClick();
+      e.preventDefault();
+      e.stopImmediatePropagation();
       if ( _this.bombMode ) {
         engine.dropBomb( +$( this ).attr( 'data-x' ), +$( this ).attr( 'data-y' ) );
         _this._consumeBomb();
