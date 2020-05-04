@@ -22,6 +22,10 @@ import UI from './game/ui';
 import InterruptNewGame from './game/interrupt_new_game';
 import InterruptEndGame from './game/interrupt_end_game';
 
+const version = document.head.querySelector( '[name="version"]' ).content;
+document.querySelector( '#version' ).innerHTML = `version v${version}`;
+document.title = `Minefield v${version}`;
+
 $( function () {
   const startGame = async () => {
     const gameSettings = await InterruptNewGame();

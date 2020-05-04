@@ -4,6 +4,7 @@ const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const { version } = require( './package.json' );
 
 module.exports = {
   context: resolve( __dirname, 'src' ),
@@ -56,7 +57,8 @@ module.exports = {
       inject: true,
       hash: true,
       cache: false,
-      template: resolve( __dirname, 'src', 'index.pug' )
+      template: resolve( __dirname, 'src', 'index.pug' ),
+      meta: { version }
     } ),
     new webpack.ProvidePlugin( {
       'window.jQuery': 'jquery',
