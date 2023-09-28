@@ -1,42 +1,29 @@
-const { resolve, join } = require( 'path' );
+const { resolve } = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const { version } = require( './package.json' );
+const ESLintPlugin = require( 'eslint-webpack-plugin' );
+
+const srcPath = resolve( __dirname, 'src' );
+const distPath = resolve( __dirname, 'dist' );
 
 module.exports = {
-  context: resolve( __dirname, 'src' ),
+  context: srcPath,
   entry: './app.js',
   output: {
-    path: join( __dirname, 'dist' ),
+    path: distPath,
     filename: 'app.[chunkhash].js'
   },
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.(js)$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules|vendor/,
-        options: { fix: true }
+        test: /(.svg|.png|.ico|.woff2|.wav)$/i,
+        type: 'asset'
       },
       {
-        test: /\.html$/,
-        loader: 'html-loader'
-      },
-      {
-        test: /\.(svg|woff2)$/,
-        loader: 'url-loader'
-      },
-      {
-        test: /\.(jpe?g|png|ico|wav)$/i,
-        loader: 'file-loader?name=[name].[ext]'
-      },
-      {
-        test: /\.pug$/,
-        loader: 'pug-loader'
+        test: /\.html$/i,
+        loader: "html-loader"
       },
       {
         test: /\.less$/,
@@ -49,6 +36,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new ESLintPlugin( {
+      fix: true,
+      exclude: [ 'vendor' ]
+    } ),
     new MiniCssExtractPlugin( {
       filename: '[contenthash].css'
     } ),
@@ -57,17 +48,13 @@ module.exports = {
       inject: true,
       hash: true,
       cache: false,
-      template: resolve( __dirname, 'src', 'index.pug' ),
+      template: resolve( srcPath, 'index.html' ),
       meta: { version }
     } ),
     new webpack.ProvidePlugin( {
       'window.jQuery': 'jquery',
       '$': 'jquery',
       'jQuery': 'jquery'
-    } ),
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin( [
-      { from: 'files/*.txt', to: resolve( __dirname, 'dist' ), flatten: true }
-    ] )
+    } )
   ]
 };

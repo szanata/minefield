@@ -20,6 +20,8 @@ class UI {
     this.$pauseBtn = $( '#pause' );
     this.$newGameBtn = $( '#new-game' );
     this.$startGame = $( '#start' );
+
+    window.testMe = FX.playClick;
   }
 
   init( { newGameCallback } ) {

@@ -13,7 +13,7 @@
 * @compatible Opera 10+
 * @compatible Safari 5+
 */
-(function () {
+( function () {
   'use strict';
 
   /**
@@ -23,10 +23,10 @@
   * @param obj <Object>
   * @return cloned object
   */
-  function cloneObj(obj) {
-    var cloned  = {};
-    for (var p in obj) {
-      if (obj.hasOwnProperty(p)) {
+  function cloneObj( obj ) {
+    const cloned = {};
+    for ( const p in obj ) {
+      if ( obj.hasOwnProperty( p ) ) {
         cloned[p] = obj[p];
       }
     }
@@ -37,9 +37,9 @@
   * Freeze given object
   * Used to prevent old browser to crash
   */
-  function _freeze(obj) {
-    if (Object.freeze) {
-      Object.freeze(obj);
+  function _freeze( obj ) {
+    if ( Object.freeze ) {
+      Object.freeze( obj );
     }
   }
 
@@ -47,11 +47,11 @@
   /**
   * Return whether given object is function or not
   */
-  function isF(o) {
+  function isF( o ) {
     return typeof o === 'function';
   }
 
-  var
+  let
     methods = {},
     defaults = {
       minWidth:400,
@@ -74,69 +74,69 @@
       onClose:null,
       buttons:[]
     },
-    workingOptions = cloneObj(defaults),
+    workingOptions = cloneObj( defaults ),
     /* popup object
     * there is only one $popup object that is reused forever;
     */
-    $popup = $('<div></div>').css({ // wrapper it all
+    $popup = $( '<div></div>' ).css( { // wrapper it all
       position:'absolute',
       top:'0',
       left:'0',
       right:'0',
       bottom:'0',
       zIndex:9999
-    }).append(
-      $('<div id="lollipop-block-layer"></div>').css({ //blocker
+    } ).append(
+      $( '<div id="lollipop-block-layer"></div>' ).css( { //blocker
         position:'absolute',
         top:'0',
         bottom:'0',
         left:'0',
         right:'0'
-      }),
-      $('<div id="lollipop-popup"></div>').css({ //popup box itself
+      } ),
+      $( '<div id="lollipop-popup"></div>' ).css( { //popup box itself
         maxWidth:defaults.maxWidth,
         minWidth:defaults.minWidth,
         position:'absolute'
-      }).append(
-        $('<div id="lollipop-popup-header"></div>').css({ //header
+      } ).append(
+        $( '<div id="lollipop-popup-header"></div>' ).css( { //header
           textOverflow:'ellipsis',
           overflow:'hidden'
-        }),
-        $('<div id="lollipop-popup-body"></div>').css({ //content body
+        } ),
+        $( '<div id="lollipop-popup-body"></div>' ).css( { //content body
           maxHeight:defaults.maxHeight,
-          minHeight:defaults.minHeight,
-        }),
-        $('<div id="lollipop-popup-footer"></div>').css({ //footer
+          minHeight:defaults.minHeight
+        } ),
+        $( '<div id="lollipop-popup-footer"></div>' ).css( { //footer
           position:'absolute',
           bottom:'0',
           left:'0',
           right:'0'
-        })
+        } )
       )
     );
-  _freeze(defaults);
+  _freeze( defaults );
 
   /**
   * prevents window scrolling in most cases,
   * but allow scroll to fetch popup bigger than screen
   */
   function preventScroll() {
-    $(window).add('html, body').scrollTop(0).scrollLeft(0).on('scroll.lollipop', function () {
-      var
-        popW = $popup.find('#lollipop-popup').outerWidth(true),
-        popH = $popup.find('#lollipop-popup').outerHeight(true);
+    $( window ).add( 'html, body' ).scrollTop( 0 ).scrollLeft( 0 ).on( 'scroll.lollipop', function () {
+      const
+        popW = $popup.find( '#lollipop-popup' ).outerWidth( true ),
+        popH = $popup.find( '#lollipop-popup' ).outerHeight( true );
 
-      if (popW < $(window).width()) {
-        $(window).scrollLeft(0);
-      } else if (popW < $(window).width() + $(window).scrollLeft()) {
-        $(window).scrollLeft(popW - $(window).width());
+      if ( popW < $( window ).width() ) {
+        $( window ).scrollLeft( 0 );
+      } else if ( popW < $( window ).width() + $( window ).scrollLeft() ) {
+        $( window ).scrollLeft( popW - $( window ).width() );
       }
-      if (popH < $(window).height()) {
-        $(window).scrollTop(0);
-      } else if (popH < $(window).height() + $(window).scrollTop()) {
-        $(window).scrollTop(popH - $(window).height());
+      if ( popH < $( window ).height() ) {
+        $( window ).scrollTop( 0 );
+      } else if ( popH < $( window ).height() + $( window ).scrollTop() ) {
+        $( window ).scrollTop( popH - $( window ).height() );
       }
-    });
+    } );
   }
 
   /**
@@ -144,38 +144,38 @@
   * if popup is bigger than x or y, it goes to position zero on that axis
   */
   function centralize() {
-    var
-      left = ($(window).width() - $popup.find('#lollipop-popup').outerWidth()) / 2,
-      top = ($(window).height() - $popup.find('#lollipop-popup').outerHeight()) / 2;
-    $popup.find('#lollipop-popup').css({
-      left:(left < 0) ? 0 : left,
-      top:(top < 0) ? 0 : top
-    });
+    const
+      left = ( $( window ).width() - $popup.find( '#lollipop-popup' ).outerWidth() ) / 2,
+      top = ( $( window ).height() - $popup.find( '#lollipop-popup' ).outerHeight() ) / 2;
+    $popup.find( '#lollipop-popup' ).css( {
+      left:( left < 0 ) ? 0 : left,
+      top:( top < 0 ) ? 0 : top
+    } );
   }
 
   /**
   * enable window scroll
   */
   function enableScroll() {
-    $(window).add('html, body').off('scroll.lollipop');
+    $( window ).add( 'html, body' ).off( 'scroll.lollipop' );
   }
 
   /**
   * recentralizes popup and resizes blocker size
   */
   function setWindowResizeBehavior() {
-    $(window).on('resize.lollipop', function () {
+    $( window ).on( 'resize.lollipop', function () {
       setBodyFooterDistance();
       setBlockerSize();
       centralize();
-    });
+    } );
   }
 
   /**
   * disable the behavior above
   */
   function disableWindowResizeBehavior() {
-    $(window).off('resize.lollipop');
+    $( window ).off( 'resize.lollipop' );
   }
 
   /**
@@ -185,73 +185,73 @@
   */
   function setBlockerSize() {
     $popup
-      .height(0).width(0) //reset
-      .height(($(document).height() < $(window).height()) ? $(window).height() : $(document).height())
-      .width(($(document).width() < $(window).width()) ? $(window).width() : $(document).width());
+      .height( 0 ).width( 0 ) //reset
+      .height( ( $( document ).height() < $( window ).height() ) ? $( window ).height() : $( document ).height() )
+      .width( ( $( document ).width() < $( window ).width() ) ? $( window ).width() : $( document ).width() );
   }
 
   /**
   * creates and appends some button to footer*
   */
-  function setButton(options) {
-    $popup.find('#lollipop-popup-footer').append(
-      options.href
-        ? $('<a class="button"></a>').text(options.title)
-          .attr({
+  function setButton( options ) {
+    $popup.find( '#lollipop-popup-footer' ).append(
+      options.href ?
+        $( '<a class="button"></a>' ).text( options.title )
+          .attr( {
             'href': options.href,
             'target': options.target ? options.target : '_blank'
-          })
-          .on('click', options.click)
-        : $('<button class="button"></button>').text(options.title).on('click', options.click)
+          } )
+          .on( 'click', options.click ) :
+        $( '<button class="button"></button>' ).text( options.title ).on( 'click', options.click )
     );
   }
 
   /**
   * binds the close on ESC beahvior
   */
-  function setCloseOnESC(_options) {
-    $(window).on('keydown.lollipop', function (e) {
-      if (e.keyCode === 27) {
-        if (isF(_options.onCancel)) {
+  function setCloseOnESC( _options ) {
+    $( window ).on( 'keydown.lollipop', function ( e ) {
+      if ( e.keyCode === 27 ) {
+        if ( isF( _options.onCancel ) ) {
           _options.onCancel();
         }
         Lollipop.close();
       }
-    });
+    } );
   }
 
   /**
   * removes close on ESC behavior
   */
   function disableCloseOnESC() {
-    $(window).off('keydown.lollipop');
+    $( window ).off( 'keydown.lollipop' );
   }
 
   /**
   * Hides or shows footer
   * Also append all his buttons
   */
-  function setFooter(_options) {
-    if (!_options.showFooter || ((!_options.buttons || _options.buttons.length === 0) && !_options.showCancelButton)) {
-      $popup.find('#lollipop-popup-footer').empty().hide();
-    }else{
-      $popup.find('#lollipop-popup-footer').empty().show();
-      if (_options.buttons) {
-        for (var i = 0, li = _options.buttons.length; i < li; i++) {
-          setButton(_options.buttons[i]);
+  function setFooter( _options ) {
+    if ( !_options.showFooter || ( ( !_options.buttons || _options.buttons.length === 0 ) && !_options.showCancelButton ) ) {
+      $popup.find( '#lollipop-popup-footer' ).empty().hide();
+    } else {
+      $popup.find( '#lollipop-popup-footer' ).empty().show();
+      if ( _options.buttons ) {
+        for ( let i = 0, li = _options.buttons.length; i < li; i++ ) {
+          setButton( _options.buttons[i] );
         }
       }
-      if (_options.showCancelButton) {
-        setButton({
+      if ( _options.showCancelButton ) {
+        setButton( {
           title: _options.cancelButtonTitle,
           click:  function () {
-            if (isF(_options.onCancel)) {
+            if ( isF( _options.onCancel ) ) {
               _options.onCancel();
             }
             Lollipop.close();
           }
-        });
-        setCloseOnESC(_options);
+        } );
+        setCloseOnESC( _options );
       }
     }
   }
@@ -260,27 +260,27 @@
   * set all sizes for the popup
   * to work wiht minHeight and minWidth, it must omit height and width
   */
-  function setSizes(_options) {
-    $popup.find('#lollipop-popup').css({
+  function setSizes( _options ) {
+    $popup.find( '#lollipop-popup' ).css( {
       maxWidth:_options.maxWidth || 'auto',
       minWidth:_options.minWidth || 'auto',
-      width:_options.width || 'auto',
-    });
-    $popup.find('#lollipop-popup-body').css({
+      width:_options.width || 'auto'
+    } );
+    $popup.find( '#lollipop-popup-body' ).css( {
       maxHeight:_options.maxHeight || 'auto',
       minHeight:_options.minHeight || 'auto',
       height:_options.height || 'auto'
-    });
+    } );
   }
 
   /**
   * Hides or shows header and its content
   */
-  function setHeader(_options) {
-    if (_options.showHeader && _options.title) {
-      $popup.find('#lollipop-popup-header').show().html(_options.title);
-    }else{
-      $popup.find('#lollipop-popup-header').hide();
+  function setHeader( _options ) {
+    if ( _options.showHeader && _options.title ) {
+      $popup.find( '#lollipop-popup-header' ).show().html( _options.title );
+    } else {
+      $popup.find( '#lollipop-popup-header' ).hide();
     }
   }
 
@@ -289,23 +289,23 @@
   * This is important since the foooter has absolute position
   */
   function setBodyFooterDistance() {
-    $popup.find('#lollipop-popup').css('padding-bottom', $popup.find('#lollipop-popup-footer:visible').length ? $popup.find('#lollipop-popup-footer').outerHeight(true) : 0);
+    $popup.find( '#lollipop-popup' ).css( 'padding-bottom', $popup.find( '#lollipop-popup-footer:visible' ).length ? $popup.find( '#lollipop-popup-footer' ).outerHeight( true ) : 0 );
   }
 
   function blockInput() {
-    $(document).on('keypress.lollipop-block keydown.lollipop-block keyup.lollipop-block paste.lollipop-block input.lollipop-block', function (e) {
-      if ($popup.find($(e.target)).length === 0) {
+    $( document ).on( 'keypress.lollipop-block keydown.lollipop-block keyup.lollipop-block paste.lollipop-block input.lollipop-block', function ( e ) {
+      if ( $popup.find( $( e.target ) ).length === 0 ) {
         e.preventDefault();
       }
-    });
+    } );
   }
 
   function unblockInput() {
-    $(document).off('keypress.lollipop-block keydown.lollipop-block keyup.lollipop-block paste.lollipop-block input.lollipop-block');
+    $( document ).off( 'keypress.lollipop-block keydown.lollipop-block keyup.lollipop-block paste.lollipop-block input.lollipop-block' );
   }
 
   function setFocus() {
-    $popup.find('input:visible, .button').first().trigger('focus');
+    $popup.find( 'input:visible, .button' ).first().trigger( 'focus' );
   }
 
   function afterOpenAction() {
@@ -315,13 +315,13 @@
     centralize();
     preventScroll();
     setWindowResizeBehavior();
-    $(window).trigger('resize.lollipop');
+    $( window ).trigger( 'resize.lollipop' );
   }
 
   function afterCloseAction() {
-    var closeCallback = $popup.data('__closeCallback');
-    if (isF(closeCallback)) {
-      closeCallback.call($popup[0]);
+    const closeCallback = $popup.data( '__closeCallback' );
+    if ( isF( closeCallback ) ) {
+      closeCallback.call( $popup[0] );
     }
     disableCloseOnESC();
     disableWindowResizeBehavior();
@@ -334,7 +334,7 @@
   * retuns a non extensible and non changeable, frozen clone of defaults
   */
   function seeDefaults() {
-    return cloneObj(defaults);
+    return cloneObj( defaults );
   }
   methods.seeDefaults = seeDefaults;
 
@@ -342,8 +342,8 @@
   * @public
   * overwrite the working options with presetted options by user
   */
-  function config(_options) {
-    $.extend(workingOptions,defaults,_options);
+  function config( _options ) {
+    $.extend( workingOptions, defaults, _options );
   }
   methods.config = config;
 
@@ -351,39 +351,39 @@
   * @public
   * opens the popup, with given options, that overwrite global options
   */
-  function open(_options) {
-    var openOptions = {};
-    $.extend(openOptions, workingOptions,_options);
-    setHeader(openOptions);
-    $popup.find('#lollipop-popup').removeClass('lollipop-loading');
-    $popup.find('#lollipop-popup-body').html('');
-    $popup.find('#lollipop-popup-body').append(openOptions.content);
-    $popup.data('__closeCallback',openOptions.onClose);
-    setSizes(openOptions);
-    setFooter(openOptions);
-    $popup.hide().appendTo($('body'));
-    if (isF(openOptions.onBeforeOpen)) {
-      openOptions.onBeforeOpen.call($popup[0]);
+  function open( _options ) {
+    const openOptions = {};
+    $.extend( openOptions, workingOptions, _options );
+    setHeader( openOptions );
+    $popup.find( '#lollipop-popup' ).removeClass( 'lollipop-loading' );
+    $popup.find( '#lollipop-popup-body' ).html( '' );
+    $popup.find( '#lollipop-popup-body' ).append( openOptions.content );
+    $popup.data( '__closeCallback', openOptions.onClose );
+    setSizes( openOptions );
+    setFooter( openOptions );
+    $popup.hide().appendTo( $( 'body' ) );
+    if ( isF( openOptions.onBeforeOpen ) ) {
+      openOptions.onBeforeOpen.call( $popup[0] );
     }
-    if (openOptions.animate) {
-      $popup.css('visibility','hidden').show( 0, function () {
+    if ( openOptions.animate ) {
+      $popup.css( 'visibility', 'hidden' ).show( 0, function () {
         afterOpenAction();
-        $popup.hide().css('visibility','visible').fadeIn(function () {
+        $popup.hide().css( 'visibility', 'visible' ).fadeIn( function () {
           setFocus();
-          if (isF(openOptions.onOpen)) {
-            openOptions.onOpen.call(this);
+          if ( isF( openOptions.onOpen ) ) {
+            openOptions.onOpen.call( this );
           }
-        });
-      });
+        } );
+      } );
 
     } else {
-      $popup.show(0, function () {
+      $popup.show( 0, function () {
         afterOpenAction();
         setFocus();
-        if (isF(openOptions.onOpen)) {
-          openOptions.onOpen.call(this);
+        if ( isF( openOptions.onOpen ) ) {
+          openOptions.onOpen.call( this );
         }
-      });
+      } );
     }
   }
   methods.open = open;
@@ -392,18 +392,18 @@
   * @public
   * closes the popup
   */
-  function close(noAnimate) {
-    var $p = $popup;
-    $popup = $popup.clone(true);
+  function close( noAnimate ) {
+    const $p = $popup;
+    $popup = $popup.clone( true );
 
-    if (noAnimate || !workingOptions.animateOnClose) {
+    if ( noAnimate || !workingOptions.animateOnClose ) {
       $p.remove();
       afterCloseAction();
     } else {
-      $p.fadeOut(function () {
+      $p.fadeOut( function () {
         $p.remove();
         afterCloseAction();
-      });
+      } );
     }
   }
   methods.close = close;
@@ -413,7 +413,7 @@
   * opens a modal loading dialog
   */
   function openLoading() {
-    methods.open({
+    methods.open( {
       showHeader: false,
       showFooter: false,
       animateOnClose: false,
@@ -422,16 +422,16 @@
       width: 300,
       content: '',
       onOpen: function () {
-        $('#lollipop-popup').addClass('lollipop-loading');
+        $( '#lollipop-popup' ).addClass( 'lollipop-loading' );
       },
       onClose: function () {
-        $('#lollipop-popup').removeClass('lollipop-loading');
+        $( '#lollipop-popup' ).removeClass( 'lollipop-loading' );
       }
-    });
+    } );
   }
   methods.openLoading = openLoading;
 
-  _freeze(methods);
+  _freeze( methods );
 
   window.Lollipop = methods;
-})();
+} )();

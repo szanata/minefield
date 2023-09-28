@@ -2,10 +2,12 @@
 
 Simple js minefield game.
 
-Play at: https://minefield.szanata.com
-
+Play at: https://szanata.com/minefield/index.html
 
 ## Changelog
+
+#### v2.1.2:
+  - Dropping pug template in favor of native HTML
 
 #### v2.1.1:
   - Fixed issue that allow users to win by marking all squares

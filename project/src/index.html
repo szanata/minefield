@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- chrome -->
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#1a1a1a">
+
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>Minefield</title>
+  </head>
+  <body>
+    <header id="top-bar">
+      <div id="logo"></div>
+      
+      <div id="controls" style="display:none">
+        <a id="new-game" class="text" href="#">New Game</a>
+        <a id="pause" class="text" href="#">Pause</a>
+        <a id="bomb" class="icon" href="#"></a>
+        <a id="mute" class="icon" href="#"></a>
+        <span id="flags">0</span>
+        <span id="timer">0:00:00</span>
+      </div>
+    </header>
+
+    <div id="content">
+      <div id="start-wrapper">
+        <a id="start" href="#">- Click here to start -</a>
+      </div>
+    </div>
+
+    <footer>
+      <span><b>Minfield</b>&nbsp;2014 - 2023</span>
+      <span>Developed with ❤️ by Stéfano Zanata</span>
+      <a href="https://szanata.com" target="_blank">szanata.com</a>
+      <span id="version">version vX.X.X</span>
+    </footer>
+    
+    <div style="width:0;height:0;overflow:hidden">
+      <audio src="./fx/click.wav"></audio>
+      <audio src="./fx/explosion.wav"></audio>
+    </div>
+  </body>
+</html>

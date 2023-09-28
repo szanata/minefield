@@ -1,7 +1,6 @@
-const merge = require( 'webpack-merge' );
+const { merge } = require( 'webpack-merge' );
 const common = require( './webpack.common.js' );
-const CompressionPlugin = require( 'compression-webpack-plugin' );
-const OptimizeCSSAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
+const CssMinimizerPlugin = require( 'css-minimizer-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 module.exports = merge( common, {
@@ -12,7 +11,9 @@ module.exports = merge( common, {
       minSize: 5000,
       maxSize: 80000
     },
+    minimize: true,
     minimizer: [
+      new CssMinimizerPlugin(),
       new TerserPlugin( {
         terserOptions: {
           output: {
@@ -21,15 +22,5 @@ module.exports = merge( common, {
         }
       } )
     ]
-  },
-  plugins: [
-    new CompressionPlugin( {
-      test: /\.(js|css|html|svg)$/,
-      filename: '[path][query]',
-      algorithm: 'gzip',
-      threshold: 0,
-      minRatio: 0.8
-    } ),
-    new OptimizeCSSAssetsPlugin()
-  ]
+  }
 } );
